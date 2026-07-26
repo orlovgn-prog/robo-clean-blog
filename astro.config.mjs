@@ -6,7 +6,7 @@ import pagefind from 'astro-pagefind';
 // https://astro.build/config
 export default defineConfig({
   // Укажите здесь реальный домен перед публикацией — нужно для sitemap/RSS/canonical
-  site: 'https://roboclean.example',
+  site: 'https://maddroidblog.ru',
   build: {
     format: 'directory',
   },
