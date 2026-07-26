@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Страница не найдена" description="Запрошенная страница не существует.">
+  <section class="section">
+    <div class="container not-found">
+      <span class="nf-code">404</span>
+      <h1>Страница не найдена</h1>
+      <p class="muted">Робот обыскал все этажи, но такой страницы нет. Возможно, она была перемещена или удалена.</p>
+      <div class="nf-links">
+        <a href="/" class="btn btn-primary">На главную</a>
+        <a href="/articles" class="btn">Все статьи</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 80px 0 120px;
+  }
+  .nf-code {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(5rem, 14vw, 10rem);
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    opacity: 0.3;
+  }
+  .not-found h1 {
+    font-size: 1.8rem;
+    margin: 0 0 12px;
+  }
+  .not-found p {
+    max-width: 440px;
+    margin: 0 auto 28px;
+    font-size: 1.05rem;
+  }
+  .nf-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

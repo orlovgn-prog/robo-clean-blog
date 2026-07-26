@@ -1,4 +1,5 @@
 ---
+import { RUBRICS } from '../utils/taxonomy';
 const year = new Date().getFullYear();
 ---
 
@@ -6,19 +7,21 @@ const year = new Date().getFullYear();
   <div class="container ftr-inner">
     <div>
       <div class="brand-name">Robo<b>Clean</b></div>
-      <p class="muted ftr-tag">Блог о робототехнике для уборки офисов, складов и бизнес-центров.</p>
+      <p class="muted ftr-tag">Медиа об автоматизации клининга коммерческих объектов.</p>
     </div>
     <div class="ftr-cols">
       <div>
         <h4>Разделы</h4>
         <a href="/articles">Все статьи</a>
-        <a href="/about">О блоге</a>
+        <a href="/about">О проекте</a>
+        <a href="/search">Поиск</a>
+        <a href="/rss.xml">RSS</a>
       </div>
       <div>
-        <h4>Категории</h4>
-        <a href="/articles?category=Офисы">Офисы</a>
-        <a href="/articles?category=Склады">Склады</a>
-        <a href="/articles?category=Бизнес-центры">Бизнес-центры</a>
+        <h4>Рубрики</h4>
+        {RUBRICS.slice(0, 5).map((r) => (
+          <a href={`/rubric/${r.slug}/`}>{r.name}</a>
+        ))}
       </div>
     </div>
   </div>

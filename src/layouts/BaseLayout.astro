@@ -6,13 +6,18 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 const {
   title,
-  description = 'Блог о робототехнике для уборки офисов, складов и бизнес-центров.',
+  description = 'Медиа об автоматизации клининга коммерческих объектов.',
+  ogImage,
 } = Astro.props;
 
 const fullTitle = title === 'RoboClean' ? title : `${title} — RoboClean`;
+const siteBase = Astro.site ?? new URL('https://roboclean.example');
+const ogImageUrl = new URL(ogImage ?? '/og-default.svg', siteBase).href;
+const pageUrl = new URL(Astro.url.pathname, siteBase).href;
 ---
 
 <!doctype html>
@@ -34,11 +39,20 @@ const fullTitle = title === 'RoboClean' ? title : `${title} — RoboClean`;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="RoboClean" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <title>{fullTitle}</title>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Перейти к содержимому</a>
     <Header />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <Footer />
