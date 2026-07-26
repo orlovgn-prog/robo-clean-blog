@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import VideoHero from '../components/VideoHero.astro';
+import { RUBRICS, rubricOf, slugOfRubric } from '../utils/taxonomy';
+
+const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const [featured, ...rest] = all;
+const latest = rest.slice(0, 6);
+
+// Рубрики, в которых есть материалы (для навигации-подборок на главной)
+const counts = new Map<string, number>();
+for (const a of all) {
+  const r = rubricOf(a.data);
+  counts.set(r, (counts.get(r) ?? 0) + 1);
+}
+const rubricCards = RUBRICS.filter((r) => counts.has(r.name));
+---
+
+<BaseLayout title="RoboClean">
+  <!-- HERO: видео-заставка -->
+  <VideoHero />
+
+  <!-- РУБРИКИ -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head"><h2>Рубрики</h2></div>
+      <div class="cat-grid">
+        {rubricCards.map((r) => (
+          <a href={`/rubric/${r.slug}/`} class="cat-card">
+            <span class="cat-ico" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" set:html={r.icon}></svg>
+            </span>
+            <span class="cat-name">{r.name}</span>
+            <span class="cat-desc muted">{r.desc}</span>
+            <span class="cat-count">{counts.get(r.name)} материалов</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ГЛАВНАЯ СТАТЬЯ -->
+  {featured && (
+    <section class="section pt-0">
+      <div class="container">
+        <div class="sec-head">
+          <h2>Свежий материал</h2>
+          <a href="/articles" class="muted see-all">Все статьи →</a>
+        </div>
+        <ArticleCard entry={featured} featured={true} />
+      </div>
+    </section>
+  )}
+
+  <!-- ПОСЛЕДНИЕ -->
+  {latest.length > 0 && (
+    <section class="section pt-0">
+      <div class="container">
+        <div class="sec-head"><h2>Читайте также</h2></div>
+        <div class="grid">
+          {latest.map((a) => <ArticleCard entry={a} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .cat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: var(--edge);
+    box-shadow: var(--pop-sm);
+    color: var(--text);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .cat-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 0 #e6f8fa, 8px 8px 0 2px #0e3a44; }
+  .cat-ico {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1.5px solid var(--navy);
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .cat-ico svg { width: 26px; height: 26px; }
+  .cat-name { font-weight: 800; color: var(--navy); font-size: 1.05rem; }
+  .cat-desc { font-size: 0.85rem; line-height: 1.4; }
+  .cat-count { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-top: auto; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .sec-head h2 { font-size: 1.5rem; margin: 0; }
+  .see-all { font-size: 0.9rem; }
+  .pt-0 { padding-top: 0; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cat-grid, .grid { grid-template-columns: 1fr; }
+  }
+</style>

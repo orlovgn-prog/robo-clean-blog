@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Search from 'astro-pagefind/components/Search.astro';
+---
+
+<BaseLayout title="Поиск" description="Поиск по материалам RoboClean — новости, кейсы, обзоры, экономика.">
+  <section class="section">
+    <div class="container search-wrap">
+      <header class="page-head">
+        <span class="eyebrow">Поиск</span>
+        <h1>Поиск по сайту</h1>
+        <p class="muted">Ищите по всем материалам: роботы, вендоры, ROI, склады, дезинфекция…</p>
+      </header>
+      <Search
+        id="search"
+        className="pagefind-ui"
+        uiOptions={{
+          showImages: false,
+          excerptLength: 24,
+          translations: {
+            placeholder: 'Искать по материалам…',
+            clear_search: 'Очистить',
+            load_more: 'Показать ещё',
+            search_label: 'Поиск по сайту',
+            zero_results: 'Ничего не найдено по запросу «[SEARCH_TERM]»',
+            many_results: 'Найдено [COUNT] по запросу «[SEARCH_TERM]»',
+            one_result: 'Найден [COUNT] по запросу «[SEARCH_TERM]»',
+          },
+        }}
+      />
+      <p class="search-note muted">
+        Индекс поиска строится при сборке сайта. В режиме разработки результаты могут не отображаться —
+        проверяйте на собранной версии (<code>npm run build &amp;&amp; npm run preview</code>).
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .search-wrap { max-width: 720px; }
+  .page-head { margin-bottom: 24px; }
+  .page-head h1 { font-size: 2.4rem; margin: 10px 0 8px; }
+  .search-note { font-size: 0.85rem; margin-top: 24px; }
+  .search-note code { background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+</style>
+
+<style is:global>
+  :root {
+    --pagefind-ui-primary: #0e3a44;
+    --pagefind-ui-text: #123038;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #cbe7ea;
+    --pagefind-ui-tag: #e6f6f8;
+    --pagefind-ui-border-width: 2px;
+    --pagefind-ui-border-radius: 12px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+  .pagefind-ui .pagefind-ui__search-input { font-weight: 600; }
+  .pagefind-ui .pagefind-ui__result-title a { color: var(--navy); }
+  .pagefind-ui .pagefind-ui__result-title a:hover { color: var(--accent); }
+</style>

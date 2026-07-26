@@ -1,0 +1,198 @@
+---
+// Анимированная иллюстрация статьи (SVG + CSS).
+// - подбор шаблона по ключу (name);
+// - `static` — заморозить (для превью в карточках);
+// - при prefers-reduced-motion анимация выключается, показывается «финальный» кадр (fallback).
+import type { AnimKey } from '../utils/anim';
+
+interface Props {
+  name: AnimKey;
+  static?: boolean;
+  class?: string;
+}
+const { name, static: isStatic = false, class: className = '' } = Astro.props;
+
+const labels: Record<AnimKey, string> = {
+  'robot-roll': 'Робот-уборщик едет по объекту',
+  'roi-chart': 'График окупаемости внедрения роботов',
+  'route-map': 'Схема маршрута автономной уборки',
+  'humans-robots': 'Гибридная модель: люди и роботы',
+  'scan-pulse': 'Сканирование и дезинфекция помещения',
+};
+---
+
+<div
+  class={`anim anim--${name}${isStatic ? ' is-static' : ''} ${className}`}
+  role="img"
+  aria-label={labels[name]}
+>
+  {name === 'robot-roll' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect class="bg-box" x="70" y="120" width="70" height="120" rx="4" />
+      <rect class="bg-box" x="150" y="150" width="54" height="90" rx="4" />
+      <rect class="bg-box" x="720" y="110" width="80" height="130" rx="4" />
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <g class="rr-robot">
+        <ellipse cx="60" cy="286" rx="70" ry="9" class="shadow" />
+        <g class="bub b1"><circle cx="120" cy="150" r="6" /></g>
+        <g class="bub b2"><circle cx="140" cy="120" r="4" /></g>
+        <rect x="18" y="150" width="96" height="86" rx="18" class="body" />
+        <rect x="34" y="120" width="64" height="26" rx="10" class="head" />
+        <rect x="44" y="128" width="44" height="10" rx="5" class="visor" />
+        <circle cx="66" cy="196" r="15" class="eye" />
+        <circle cx="66" cy="196" r="6" class="pupil" />
+        <g class="rr-wheel" style="transform-origin:44px 250px"><circle cx="44" cy="250" r="20" class="wheel" /><path d="M44 234v32M28 250h32" class="spoke" /></g>
+        <g class="rr-wheel" style="transform-origin:96px 250px"><circle cx="96" cy="250" r="20" class="wheel" /><path d="M96 234v32M80 250h32" class="spoke" /></g>
+        <path d="M116 210 l30 -6 M116 224 l30 0" class="speed" />
+      </g>
+    </svg>
+  )}
+
+  {name === 'roi-chart' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <path d="M120 60 V300 H800" class="axis" />
+      <g class="bars">
+        <rect class="rc-bar" style="--d:0s;transform-origin:0 300px" x="180" y="230" width="70" height="70" rx="6" />
+        <rect class="rc-bar" style="--d:.15s;transform-origin:0 300px" x="300" y="180" width="70" height="120" rx="6" />
+        <rect class="rc-bar" style="--d:.3s;transform-origin:0 300px" x="420" y="130" width="70" height="170" rx="6" />
+        <rect class="rc-bar rc-bar--hi" style="--d:.45s;transform-origin:0 300px" x="540" y="80" width="70" height="220" rx="6" />
+      </g>
+      <path class="rc-trend" d="M210 250 L335 205 L455 150 L580 100" />
+      <path class="rc-arrow" d="M560 100 h24 v24" />
+    </svg>
+  )}
+
+  {name === 'route-map' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <rect x="120" y="40" width="640" height="280" rx="14" class="room" />
+      <rect x="300" y="120" width="90" height="60" rx="6" class="obstacle" />
+      <rect x="520" y="200" width="70" height="70" rx="6" class="obstacle" />
+      <path
+        class="rm-path"
+        d="M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170"
+      />
+      <circle r="12" class="rm-dot" />
+    </svg>
+  )}
+
+  {name === 'humans-robots' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g class="hr-fig hr-human">
+        <circle cx="300" cy="140" r="34" class="fill-soft" />
+        <path d="M250 300 v-40 a50 50 0 0 1 100 0 v40 z" class="fill-soft" />
+      </g>
+      <g class="hr-fig hr-robot">
+        <rect x="520" y="120" width="120" height="90" rx="18" class="body" />
+        <rect x="540" y="86" width="80" height="26" rx="10" class="head" />
+        <rect x="552" y="94" width="56" height="10" rx="5" class="visor" />
+        <circle cx="580" cy="164" r="16" class="eye" />
+        <path d="M540 300 h80 l14 -90 h-108 z" class="base" />
+      </g>
+      <g class="hr-link">
+        <path d="M368 200 h40 M472 200 h40" class="link-line" />
+        <circle cx="440" cy="200" r="20" class="link-node" />
+        <path d="M432 200 h16 M440 192 v16" class="link-plus" />
+      </g>
+    </svg>
+  )}
+
+  {name === 'scan-pulse' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <circle class="sp-ring" style="--d:0s" cx="440" cy="200" r="60" />
+      <circle class="sp-ring" style="--d:.9s" cx="440" cy="200" r="60" />
+      <circle class="sp-ring" style="--d:1.8s" cx="440" cy="200" r="60" />
+      <g class="sp-robot">
+        <rect x="392" y="150" width="96" height="80" rx="16" class="body" />
+        <rect x="408" y="122" width="64" height="24" rx="10" class="head" />
+        <rect x="418" y="129" width="44" height="10" rx="5" class="visor" />
+        <circle cx="440" cy="192" r="16" class="eye" />
+        <path d="M410 230 h60 l10 -80 h-80 z" class="base" opacity="0" />
+      </g>
+      <path class="spark s1" d="M300 120 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6z" />
+      <path class="spark s2" d="M600 240 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" />
+    </svg>
+  )}
+</div>
+
+<style>
+  .anim {
+    display: block;
+    width: 100%;
+    aspect-ratio: 880 / 360;
+    background: linear-gradient(180deg, #f2fbfc 0%, #e6f6f8 100%);
+    overflow: hidden;
+  }
+  .anim svg { width: 100%; height: 100%; display: block; }
+
+  /* общие цвета */
+  .floor { stroke: var(--line-strong); stroke-width: 2; }
+  .shadow { fill: var(--navy); opacity: 0.08; }
+  .bg-box { fill: #d7eef1; }
+  .body { fill: #e6f7f9; stroke: var(--navy); stroke-width: 3; }
+  .head { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  .visor { fill: var(--accent); }
+  .eye { fill: #fff; stroke: var(--navy); stroke-width: 2.5; }
+  .pupil { fill: var(--accent); }
+  .base { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  .wheel { fill: #fff; stroke: var(--navy); stroke-width: 3; }
+  .spoke { stroke: var(--navy); stroke-width: 2; }
+  .speed { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; fill: none; }
+  .bub circle { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .fill-soft { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+
+  /* robot-roll */
+  .rr-robot { animation: rr-move 7s ease-in-out infinite; }
+  .rr-wheel { transform-box: fill-box; animation: rr-spin 1.1s linear infinite; }
+  .rr-robot .bub { animation: rr-bub 2.6s ease-in infinite; }
+  .rr-robot .b2 { animation-delay: 0.8s; }
+  @keyframes rr-move { 0%,100% { transform: translateX(60px); } 50% { transform: translateX(560px); } }
+  @keyframes rr-spin { to { transform: rotate(360deg); } }
+  @keyframes rr-bub { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px); } }
+
+  /* roi-chart */
+  .axis { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linecap: round; }
+  .rc-bar { fill: #bfe7ec; stroke: var(--navy); stroke-width: 2.5; transform-box: fill-box; animation: rc-grow 1s ease-out var(--d) both; }
+  .rc-bar--hi { fill: var(--accent); }
+  .rc-trend { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 520; stroke-dashoffset: 0; animation: draw 1.6s ease-out 0.4s both; }
+  .rc-arrow { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes rc-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes draw { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
+
+  /* route-map */
+  .room { fill: #ffffff; stroke: var(--navy); stroke-width: 3; }
+  .obstacle { fill: #cfeef2; stroke: var(--navy); stroke-width: 2.5; }
+  .rm-path { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2600; stroke-dashoffset: 0; animation: rm-draw 5s linear infinite; }
+  .rm-dot { fill: var(--lime); stroke: #fff; stroke-width: 2; offset-path: path('M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170'); offset-distance: 0%; animation: rm-run 5s linear infinite; }
+  @keyframes rm-draw { from { stroke-dashoffset: 2600; } to { stroke-dashoffset: 0; } }
+  @keyframes rm-run { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+  /* humans-robots */
+  .hr-fig { animation: hr-bob 3.4s ease-in-out infinite; }
+  .hr-robot { animation-delay: 0.6s; transform-box: fill-box; }
+  .hr-human { transform-box: fill-box; }
+  .hr-link .link-line { stroke: var(--navy); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 4 6; }
+  .hr-link .link-node { fill: var(--lime); stroke: var(--navy); stroke-width: 2.5; }
+  .hr-link .link-plus { stroke: #fff; stroke-width: 3; stroke-linecap: round; }
+  .hr-link { animation: hr-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: 440px 200px; }
+  @keyframes hr-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes hr-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+
+  /* scan-pulse */
+  .sp-ring { fill: none; stroke: var(--accent); stroke-width: 3; transform-box: fill-box; transform-origin: center; opacity: 0; animation: sp-pulse 2.7s ease-out var(--d) infinite; }
+  .spark { fill: var(--lime); animation: sp-spark 2.2s ease-in-out infinite; }
+  .spark.s2 { fill: var(--accent); animation-delay: 0.7s; }
+  @keyframes sp-pulse { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.7); opacity: 0; } }
+  @keyframes sp-spark { 0%,100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+
+  /* Заморозка: статичное превью и уважение к prefers-reduced-motion */
+  .anim.is-static *,
+  .anim.is-static {
+    animation: none !important;
+  }
+  .anim.is-static .sp-ring { opacity: 0.35; }
+  @media (prefers-reduced-motion: reduce) {
+    .anim * { animation: none !important; }
+    .anim .sp-ring { opacity: 0.3; }
+    .anim .rm-dot { offset-distance: 12%; }
+  }
+</style>

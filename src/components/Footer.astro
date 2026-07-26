@@ -1,0 +1,53 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container ftr-inner">
+    <div>
+      <div class="brand-name">Robo<b>Clean</b></div>
+      <p class="muted ftr-tag">Блог о робототехнике для уборки офисов, складов и бизнес-центров.</p>
+    </div>
+    <div class="ftr-cols">
+      <div>
+        <h4>Разделы</h4>
+        <a href="/articles">Все статьи</a>
+        <a href="/about">О блоге</a>
+      </div>
+      <div>
+        <h4>Категории</h4>
+        <a href="/articles?category=Офисы">Офисы</a>
+        <a href="/articles?category=Склады">Склады</a>
+        <a href="/articles?category=Бизнес-центры">Бизнес-центры</a>
+      </div>
+    </div>
+  </div>
+  <div class="container ftr-bottom">
+    <span class="muted">© {year} RoboClean. Статьи готовятся с помощью ИИ.</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .ftr-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+    padding-block: 48px 32px;
+  }
+  .ftr-inner > div:first-child { max-width: 320px; }
+  .brand-name { font-weight: 700; font-size: 1.15rem; }
+  .brand-name b { color: var(--accent); }
+  .ftr-tag { margin: 10px 0 0; font-size: 0.95rem; }
+  .ftr-cols { display: flex; gap: 56px; }
+  .ftr-cols h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin: 0 0 12px; }
+  .ftr-cols a { display: block; color: var(--text-muted); font-size: 0.92rem; padding: 4px 0; }
+  .ftr-cols a:hover { color: var(--accent); }
+  .ftr-bottom { padding-bottom: 32px; font-size: 0.85rem; }
+  @media (max-width: 560px) { .ftr-cols { gap: 32px; } }
+</style>

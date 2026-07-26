@@ -1,0 +1,62 @@
+---
+// Декоративная line-art иллюстрация робота-уборщика.
+// Сине-белый инфографический стиль: навигационная обводка,
+// голубые заливки, синий «сканер», лёгкая точечная фактура.
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 320 340"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Робот-уборщик"
+>
+  <defs>
+    <pattern id="ra-stip" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#0e3a44" opacity="0.16" />
+    </pattern>
+  </defs>
+
+  <!-- тень -->
+  <ellipse cx="165" cy="312" rx="120" ry="15" fill="#0e3a44" opacity="0.10" />
+
+  <!-- голова-сканер -->
+  <g stroke="#0e3a44" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="112" y="34" width="96" height="34" rx="12" fill="#cfeef2" />
+    <rect x="124" y="46" width="72" height="10" rx="5" fill="#14b8c4" stroke="#0e3a44" />
+    <path d="M150 68 L150 96 M182 68 L182 96" fill="none" />
+    <path d="M150 96 Q166 108 182 96" fill="none" />
+  </g>
+
+  <!-- корпус -->
+  <g stroke="#0e3a44" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="118" y="104" width="118" height="96" rx="16" fill="#e6f7f9" />
+    <rect x="118" y="150" width="118" height="50" rx="0" fill="url(#ra-stip)" stroke="none" />
+    <circle cx="177" cy="152" r="20" fill="#ffffff" />
+    <circle cx="177" cy="152" r="8" fill="#14b8c4" />
+    <path d="M210 120 h14 M210 132 h14" opacity="0.7" />
+  </g>
+
+  <!-- рука со шваброй -->
+  <g stroke="#0e3a44" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M118 140 L86 168 L70 208" fill="none" />
+    <rect x="52" y="196" width="40" height="24" rx="6" fill="#cfeef2" />
+    <path d="M58 220 l-6 26 M70 222 l-4 26 M82 222 l0 26 M92 220 l6 24" fill="none" />
+  </g>
+
+  <!-- основание на колёсах -->
+  <g stroke="#0e3a44" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M126 200 L246 200 L262 250 L110 250 Z" fill="#cfeef2" />
+    <path d="M126 200 L246 200 L262 250 L110 250 Z" fill="url(#ra-stip)" stroke="none" />
+    <circle cx="150" cy="266" r="20" fill="#ffffff" />
+    <circle cx="150" cy="266" r="7" fill="#14b8c4" />
+    <circle cx="224" cy="266" r="20" fill="#ffffff" />
+    <circle cx="224" cy="266" r="7" fill="#14b8c4" />
+    <path d="M186 250 l-8 30 M198 250 l-4 30 M210 250 l0 30 M222 250 l4 30" fill="none" />
+  </g>
+</svg>

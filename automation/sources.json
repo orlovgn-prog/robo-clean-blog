@@ -1,0 +1,21 @@
+{
+  "//": "Источники автосбора новостей. Добавляйте официальные RSS-ленты и Google News RSS по запросам. lang — язык оригинала (для перевода). weight — приоритет при дедупликации (выше = предпочтительнее как первоисточник).",
+  "keywords": [
+    "cleaning robot", "autonomous scrubber", "floor scrubber robot", "robotic cleaning",
+    "warehouse cleaning robot", "facility automation", "janitorial robot", "disinfection robot",
+    "window cleaning robot", "робот-уборщик", "поломоечная машина", "клининг робот"
+  ],
+  "minRelevanceHits": 1,
+  "feeds": [
+    { "name": "Google News — cleaning robot", "lang": "en", "weight": 2,
+      "rssUrl": "https://news.google.com/rss/search?q=%22cleaning+robot%22+OR+%22autonomous+scrubber%22+warehouse+OR+mall+OR+facility&hl=en-US&gl=US&ceid=US:en" },
+    { "name": "Google News — robotic floor scrubber", "lang": "en", "weight": 2,
+      "rssUrl": "https://news.google.com/rss/search?q=%22robotic+floor+scrubber%22+OR+%22cleaning+robot%22+commercial&hl=en-US&gl=US&ceid=US:en" },
+    { "name": "The Robot Report — cleaning", "lang": "en", "weight": 3,
+      "rssUrl": "https://www.therobotreport.com/feed/" },
+    { "name": "Robotics 24/7", "lang": "en", "weight": 3,
+      "rssUrl": "https://www.robotics247.com/rss/topic/258/articles.rss" },
+    { "name": "Cleaning & Maintenance Management", "lang": "en", "weight": 2,
+      "rssUrl": "https://www.cmmonline.com/rss" }
+  ]
+}

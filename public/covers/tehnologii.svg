@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 495" role="img" aria-label="Технологии навигации робота">
+  <defs>
+    <pattern id="c-stip" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#0e3a44" opacity="0.14"/>
+    </pattern>
+  </defs>
+  <!-- фон -->
+  <rect width="880" height="495" fill="#f2fbfc"/>
+  <path d="M0 360 H880" stroke="#a9dbe0" stroke-width="2"/>
+  <rect x="0" y="360" width="880" height="135" fill="#e6f7f9"/>
+
+  <!-- сетка-схема на фоне -->
+  <g stroke="#cfe9ec" stroke-width="1.5">
+    <path d="M0 110 H880 M0 190 H880 M0 270 H880"/>
+    <path d="M140 40 V360 M300 40 V360 M580 40 V360 M740 40 V360"/>
+  </g>
+
+  <!-- концентрические волны сканера (LiDAR) -->
+  <g stroke="#14b8c4" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M470 250 A120 120 0 0 1 640 250" stroke-dasharray="6 10" opacity="0.9"/>
+    <path d="M450 250 A150 150 0 0 1 660 250" stroke-dasharray="6 12" opacity="0.6"/>
+    <path d="M430 250 A180 180 0 0 1 680 250" stroke-dasharray="6 14" opacity="0.4"/>
+  </g>
+  <!-- луч -->
+  <path d="M555 190 L720 120" stroke="#14b8c4" stroke-width="2.5" stroke-dasharray="10 8"/>
+  <circle cx="720" cy="120" r="5" fill="#14b8c4"/>
+
+  <!-- шестерёнка -->
+  <g stroke="#0e3a44" stroke-width="3" fill="#cfeef2">
+    <circle cx="160" cy="150" r="34"/>
+    <circle cx="160" cy="150" r="12" fill="#ffffff"/>
+    <path d="M160 108 v16 M160 176 v16 M118 150 h16 M186 150 h16 M130 120 l11 11 M179 169 l11 11 M190 120 l-11 11 M141 169 l-11 11" stroke="#0e3a44" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== РОБОТ ===== -->
+  <g transform="translate(320 120)">
+    <ellipse cx="120" cy="248" rx="110" ry="14" fill="#0e3a44" opacity="0.10"/>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="70" y="0" width="100" height="34" rx="12" fill="#cfeef2"/>
+      <rect x="82" y="12" width="76" height="10" rx="5" fill="#14b8c4"/>
+      <path d="M108 34 V60 M140 34 V60" fill="none"/>
+      <path d="M108 60 Q124 72 140 60" fill="none"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="74" y="68" width="120" height="96" rx="16" fill="#e6f7f9"/>
+      <circle cx="134" cy="116" r="19" fill="#ffffff"/>
+      <circle cx="134" cy="116" r="7" fill="#14b8c4"/>
+      <path d="M168 84 h16 M168 96 h16" opacity="0.6"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M74 104 L40 132 L24 176" fill="none"/>
+      <rect x="6" y="170" width="40" height="24" rx="6" fill="#cfeef2"/>
+      <path d="M12 194 l-4 26 M24 196 l-2 26 M36 196 l0 26 M44 194 l4 24" fill="none"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M82 164 L186 164 L202 212 L66 212 Z" fill="#cfeef2"/>
+      <path d="M82 164 L186 164 L202 212 L66 212 Z" fill="url(#c-stip)" stroke="none"/>
+      <circle cx="104" cy="228" r="19" fill="#ffffff"/>
+      <circle cx="104" cy="228" r="6" fill="#14b8c4"/>
+      <circle cx="176" cy="228" r="19" fill="#ffffff"/>
+      <circle cx="176" cy="228" r="6" fill="#14b8c4"/>
+      <path d="M140 212 l-6 28 M152 212 l-3 28 M164 212 l0 28 M176 212 l4 28" fill="none"/>
+    </g>
+  </g>
+</svg>

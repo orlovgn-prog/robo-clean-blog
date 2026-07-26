@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import RubricNav from '../../components/RubricNav.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Фильтр по типу объекта (склад/ТЦ/БЦ/…) — из фактических данных статей
+const typeSet = new Set<string>();
+for (const a of articles) for (const t of a.data.objectTypes ?? []) typeSet.add(t);
+const objectFilters = ['Все', ...Array.from(typeSet)];
+---
+
+<BaseLayout title="Статьи" description="Все материалы об автоматизации клининга: новости, кейсы, обзоры, экономика.">
+  <section class="section">
+    <div class="container">
+      <header class="page-head">
+        <span class="eyebrow">Библиотека</span>
+        <h1>Все материалы</h1>
+        <p class="muted">Всего: {articles.length}. Выберите рубрику или отфильтруйте по типу объекта.</p>
+      </header>
+
+      <RubricNav />
+
+      {objectFilters.length > 1 && (
+        <div class="filters" role="tablist" aria-label="Фильтр по типу объекта">
+          {objectFilters.map((c) => (
+            <button class="filter-btn" data-type={c}>{c}</button>
+          ))}
+        </div>
+      )}
+
+      <div class="grid" id="article-grid">
+        {articles.map((a) => (
+          <div class="grid-item" data-types={(a.data.objectTypes ?? []).join('|')}>
+            <ArticleCard entry={a} />
+          </div>
+        ))}
+      </div>
+      <p class="empty muted" id="empty-msg" hidden>В этом фильтре пока нет материалов.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head { margin-bottom: 24px; }
+  .page-head h1 { font-size: 2.4rem; margin: 10px 0 8px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .filter-btn {
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1.5px solid var(--line-strong);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  }
+  .filter-btn:hover { color: var(--navy); border-color: var(--navy); }
+  .filter-btn.is-active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-item[hidden] { display: none; }
+  .empty { text-align: center; padding: 40px 0; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.grid-item'));
+  const emptyMsg = document.getElementById('empty-msg');
+
+  function apply(type: string) {
+    let visible = 0;
+    for (const item of items) {
+      const types = (item.dataset.types || '').split('|').filter(Boolean);
+      const match = type === 'Все' || types.includes(type);
+      item.hidden = !match;
+      if (match) visible++;
+    }
+    buttons.forEach((b) => b.classList.toggle('is-active', b.dataset.type === type));
+    if (emptyMsg) emptyMsg.hidden = visible !== 0;
+  }
+
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.type || 'Все')));
+  apply('Все');
+</script>

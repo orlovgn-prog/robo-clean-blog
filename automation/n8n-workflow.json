@@ -1,0 +1,111 @@
+{
+  "name": "RoboClean — автосбор новостей (Claude)",
+  "meta": { "instanceId": "roboclean" },
+  "settings": { "executionOrder": "v1", "timezone": "Europe/Moscow" },
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 9 * * 1,3,5" }
+          ]
+        }
+      },
+      "id": "sched",
+      "name": "Пн/Ср/Пт 09:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ленты берутся из automation/sources.json. Вставьте актуальный список сюда\n// или подгрузите файл HTTP-нодой из репозитория. Один item = одна лента.\nconst feeds = [\n  { name: 'The Robot Report', lang: 'en', weight: 3, feedUrl: 'https://www.therobotreport.com/feed/' },\n  { name: 'Google News — cleaning robot', lang: 'en', weight: 2, feedUrl: 'https://news.google.com/rss/search?q=%22cleaning+robot%22+OR+%22autonomous+scrubber%22+warehouse+OR+mall+OR+facility&hl=en-US&gl=US&ceid=US:en' }\n];\nreturn feeds.map((f) => ({ json: f }));"
+      },
+      "id": "feeds",
+      "name": "Ленты (из sources.json)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": { "url": "={{ $json.feedUrl }}", "options": {} },
+      "id": "rss",
+      "name": "Читать RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [440, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Фильтр релевантности + дедупликация (в т.ч. между запусками через static data).\nconst KEYWORDS = ['cleaning robot','autonomous scrubber','floor scrubber','robotic cleaning','warehouse cleaning','facility automation','janitorial robot','disinfection robot','window cleaning robot'];\nconst store = $getWorkflowStaticData('global');\nstore.seen = store.seen || {};\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  const text = ((j.title||'') + ' ' + (j.contentSnippet||j.content||'')).toLowerCase();\n  const hits = KEYWORDS.filter((k) => text.includes(k)).length;\n  if (hits < 1) continue; // нерелевантно\n  const link = j.link || j.guid || '';\n  const key = (j.title||'').toLowerCase().replace(/\\W+/g,' ').trim().slice(0,120);\n  if (!key || store.seen[key]) continue; // дубль\n  store.seen[key] = Date.now();\n  out.push({ json: { title: j.title, summary: (j.contentSnippet||j.content||'').slice(0,600), link, publishedAt: j.isoDate || j.pubDate || null } });\n}\nreturn out;"
+      },
+      "id": "filter",
+      "name": "Фильтр + дедуп",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  model: 'claude-sonnet-5',\n  max_tokens: 1200,\n  system: 'Ты — редактор русскоязычного медиа об автоматизации клининга (робо-клининг коммерческих объектов). Тебе дают заголовок и краткое описание новости. Верни СТРОГО JSON без пояснений с полями: title (русский рерайт заголовка), description (1-2 предложения), body_md (2-4 абзаца оригинального русского рерайта, без копирования, допустима 1 короткая цитата <15 слов), category (одно из: Офисы, Склады, Бизнес-центры, Технологии), tags (массив), objectTypes (из: склад, ТЦ, БЦ, аэропорт, вокзал, логистика), vendors (массив), robotType (массив), animation (один из: robot-roll, roi-chart, route-map, humans-robots, scan-pulse), slug (латиница-с-дефисами). Если новость НЕ про робо-клининг/автоматизацию уборки — верни {\\\"skip\\\":true}.',\n  messages: [ { role: 'user', content: 'Заголовок: ' + $json.title + '\\nОписание: ' + $json.summary + '\\nСсылка: ' + $json.link } ]\n}) }}",
+        "options": {}
+      },
+      "id": "claude",
+      "name": "Claude: перевод+рерайт+классификация",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Парсим ответ Claude и собираем Markdown по контракту (см. content-contract.md).\nfunction ymd(d){ const x = d? new Date(d): new Date(); return x.toISOString().slice(0,10); }\nconst out = [];\nfor (const item of $input.all()) {\n  const src = item.json; // исходная новость\n  let txt = '';\n  try { txt = src.content?.[0]?.text || src.data?.content?.[0]?.text || ''; } catch(e){}\n  if (!txt && typeof src === 'object' && src.content && Array.isArray(src.content)) txt = src.content[0].text;\n  let a; try { a = JSON.parse(txt.match(/\\{[\\s\\S]*\\}/)[0]); } catch(e){ continue; }\n  if (!a || a.skip) continue;\n  const meta = $('Фильтр + дедуп').all()[item.pairedItem?.item ?? 0]?.json || {};\n  const slug = (a.slug || a.title).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,60);\n  const fm = [\n    '---',\n    'title: ' + JSON.stringify(a.title),\n    'description: ' + JSON.stringify(a.description),\n    'pubDate: ' + ymd(),\n    'category: ' + JSON.stringify(a.category || 'Технологии'),\n    'rubric: \"Новости\"',\n    'tags: ' + JSON.stringify(a.tags || []),\n    'objectTypes: ' + JSON.stringify(a.objectTypes || []),\n    'vendors: ' + JSON.stringify(a.vendors || []),\n    'robotType: ' + JSON.stringify(a.robotType || []),\n    'readingTime: 2',\n    'animation: ' + JSON.stringify(a.animation || 'robot-roll'),\n    'origin: \"auto\"',\n    'source:',\n    '  name: ' + JSON.stringify(meta.sourceName || 'Источник'),\n    '  url: ' + JSON.stringify(meta.link || ''),\n    '  publishedAt: ' + ymd(meta.publishedAt),\n    '---',\n    '',\n    a.body_md || ''\n  ].join('\\n');\n  out.push({ json: { path: 'src/content/articles/news-' + slug + '.md', content: fm, message: 'news: ' + a.title } });\n}\nreturn out;"
+      },
+      "id": "build",
+      "name": "Собрать Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "accessToken",
+        "resource": "file",
+        "operation": "create",
+        "owner": { "__rl": true, "mode": "name", "value": "ВАШ_GITHUB_ЛОГИН" },
+        "repository": { "__rl": true, "mode": "name", "value": "robo-clean-blog" },
+        "filePath": "={{ $json.path }}",
+        "fileContent": "={{ $json.content }}",
+        "commitMessage": "={{ $json.message }}",
+        "additionalParameters": { "branch": "main" }
+      },
+      "id": "gh",
+      "name": "GitHub: коммит .md",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1320, 300]
+    }
+  ],
+  "connections": {
+    "Пн/Ср/Пт 09:00": { "main": [[{ "node": "Ленты (из sources.json)", "type": "main", "index": 0 }]] },
+    "Ленты (из sources.json)": { "main": [[{ "node": "Читать RSS", "type": "main", "index": 0 }]] },
+    "Читать RSS": { "main": [[{ "node": "Фильтр + дедуп", "type": "main", "index": 0 }]] },
+    "Фильтр + дедуп": { "main": [[{ "node": "Claude: перевод+рерайт+классификация", "type": "main", "index": 0 }]] },
+    "Claude: перевод+рерайт+классификация": { "main": [[{ "node": "Собрать Markdown", "type": "main", "index": 0 }]] },
+    "Собрать Markdown": { "main": [[{ "node": "GitHub: коммит .md", "type": "main", "index": 0 }]] }
+  }
+}

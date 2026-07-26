@@ -1,0 +1,233 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleAnimation from '../../components/ArticleAnimation.astro';
+import { formatDate, estimateReadingTime } from '../../utils/format';
+import { pickAnimation } from '../../utils/anim';
+import { rubricOf } from '../../utils/taxonomy';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+const { data, body } = article;
+const readingTime = data.readingTime ?? estimateReadingTime(body ?? '');
+const animKey = pickAnimation({
+  animation: data.animation,
+  rubric: data.rubric,
+  category: data.category,
+  tags: data.tags,
+});
+
+// Абсолютный URL статьи (для шаринга и JSON-LD)
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://roboclean.example').href;
+
+// Похожие статьи из той же категории
+const related = (await getCollection('articles', ({ data: d }) => !d.draft))
+  .filter((a) => a.id !== article.id && a.data.category === data.category)
+  .slice(0, 3);
+
+// JSON-LD: NewsArticle для автособранных новостей, иначе Article
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': data.origin === 'auto' ? 'NewsArticle' : 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.pubDate.toISOString(),
+  inLanguage: 'ru-RU',
+  author: { '@type': 'Organization', name: data.author },
+  publisher: { '@type': 'Organization', name: 'RoboClean' },
+  mainEntityOfPage: pageUrl,
+  ...(data.source
+    ? { isBasedOn: data.source.url, citation: data.source.name }
+    : {}),
+};
+
+const shareTitle = encodeURIComponent(data.title);
+const shareUrl = encodeURIComponent(pageUrl);
+const shares = [
+  { label: 'Telegram', href: `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}` },
+  { label: 'VK', href: `https://vk.com/share.php?url=${shareUrl}&title=${shareTitle}` },
+  { label: 'X', href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}` },
+];
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <article class="post" data-pagefind-body>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <div class="container post-narrow">
+      <a href="/articles" class="back muted">← Все статьи</a>
+
+      <header class="post-head">
+        <div class="post-meta">
+          <span class="chip chip--accent">{rubricOf(data)}</span>
+          <span class="muted">{formatDate(data.pubDate)}</span>
+          <span class="muted">·</span>
+          <span class="muted">{readingTime} мин чтения</span>
+        </div>
+        <h1 class="post-title">{data.title}</h1>
+        <p class="post-lead">{data.description}</p>
+        <div class="post-author muted">
+          <span class="dot" aria-hidden="true"></span>
+          {data.author}
+        </div>
+      </header>
+
+      <div class="post-cover">
+        <ArticleAnimation name={animKey} />
+      </div>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {data.source && (
+        <aside class="source-box">
+          <span class="source-label">Источник</span>
+          <a href={data.source.url} target="_blank" rel="noopener nofollow">{data.source.name}</a>
+          {data.origin === 'auto' && (
+            <p class="source-note muted">Переведено и адаптировано ИИ-редакцией. Оригинал — по ссылке.</p>
+          )}
+        </aside>
+      )}
+
+      {data.tags.length > 0 && (
+        <div class="post-tags">
+          {data.tags.map((t) => <span class="chip">#{t}</span>)}
+        </div>
+      )}
+
+      <div class="post-share">
+        <span class="muted">Поделиться:</span>
+        {shares.map((s) => (
+          <a class="share-btn" href={s.href} target="_blank" rel="noopener">{s.label}</a>
+        ))}
+      </div>
+    </div>
+
+    {related.length > 0 && (
+      <div class="container">
+        <section class="related">
+          <h2>Ещё по теме «{data.category}»</h2>
+          <div class="related-grid">
+            {related.map((a) => (
+              <a href={`/articles/${a.id}/`} class="related-card">
+                <span class="muted related-date">{formatDate(a.data.pubDate)}</span>
+                <span class="related-title">{a.data.title}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      </div>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .post { padding-block: 40px 24px; }
+  .post-narrow { max-width: 760px; }
+  .back { display: inline-block; font-size: 0.9rem; margin-bottom: 24px; }
+  .post-head { margin-bottom: 28px; }
+  .post-cover {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: var(--edge);
+    box-shadow: var(--pop);
+    margin-bottom: 44px;
+    background: #e6f6f8;
+  }
+  .post-cover img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+  .post-meta { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; margin-bottom: 18px; }
+  .post-title { font-size: clamp(1.9rem, 4vw, 2.8rem); margin: 0 0 16px; }
+  .post-lead { font-size: 1.2rem; color: var(--text-muted); margin: 0 0 20px; line-height: 1.5; }
+  .post-author { display: flex; align-items: center; gap: 8px; font-size: 0.92rem; }
+  .post-author .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+  .source-box {
+    margin-top: 36px;
+    padding: 18px 20px;
+    border: var(--edge);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+  .source-label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 4px; }
+  .source-box a { font-weight: 700; }
+  .source-note { margin: 8px 0 0; font-size: 0.88rem; }
+
+  .post-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+
+  .post-share { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .share-btn {
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--navy);
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: #fff;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .share-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .related { max-width: 760px; margin: 56px auto 0; padding-top: 40px; border-top: 1px solid var(--line); }
+  .related h2 { font-size: 1.3rem; margin: 0 0 20px; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .related-card {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 18px; border-radius: var(--radius-sm);
+    background: #fff; border: var(--edge);
+    color: var(--text);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .related-card:hover { transform: translate(-3px, -3px); box-shadow: var(--pop-sm); }
+  .related-date { font-size: 0.78rem; }
+  .related-title { font-weight: 600; font-size: 0.98rem; line-height: 1.35; }
+  @media (max-width: 640px) { .related-grid { grid-template-columns: 1fr; } }
+</style>
+
+<!-- Стили для контента статьи (Markdown) -->
+<style is:global>
+  .prose { font-size: 1.08rem; line-height: 1.75; color: var(--text); }
+  .prose > * + * { margin-top: 1.15em; }
+  .prose h2 { font-size: 1.6rem; margin-top: 2em; margin-bottom: 0.4em; }
+  .prose h3 { font-size: 1.25rem; margin-top: 1.6em; margin-bottom: 0.3em; }
+  .prose p { color: #33405e; }
+  .prose a { text-decoration: underline; text-underline-offset: 3px; }
+  .prose ul, .prose ol { padding-left: 1.4em; color: #33405e; }
+  .prose li { margin-top: 0.4em; }
+  .prose li::marker { color: var(--accent); }
+  .prose strong { color: var(--text); }
+  .prose blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 1.5em 0;
+    padding: 4px 0 4px 20px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .prose code {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.9em;
+  }
+  .prose pre {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    overflow-x: auto;
+  }
+  .prose pre code { background: none; border: none; padding: 0; }
+  .prose img { border-radius: var(--radius-sm); margin: 1.5em 0; }
+  .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5em 0; }
+  .prose table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .prose th, .prose td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; }
+  .prose th { background: var(--surface); }
+</style>

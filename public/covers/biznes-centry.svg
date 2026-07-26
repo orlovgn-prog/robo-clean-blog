@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 495" role="img" aria-label="Робот убирает холл бизнес-центра">
+  <defs>
+    <pattern id="c-stip" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#0e3a44" opacity="0.14"/>
+    </pattern>
+  </defs>
+  <!-- фон -->
+  <rect width="880" height="495" fill="#f2fbfc"/>
+  <path d="M0 360 H880" stroke="#a9dbe0" stroke-width="2"/>
+  <rect x="0" y="360" width="880" height="135" fill="#e6f7f9"/>
+
+  <!-- панорамные окна слева -->
+  <g stroke="#0e3a44" stroke-width="2.5" fill="#e6f6f8">
+    <rect x="40" y="60" width="220" height="300"/>
+  </g>
+  <path d="M113 60 V360 M186 60 V360 M40 160 H260 M40 260 H260" stroke="#0e3a44" stroke-width="2" fill="none"/>
+  <path d="M60 80 L120 80 L60 200 Z" fill="#cfeef2" opacity="0.7"/>
+
+  <!-- ресепшн справа -->
+  <g stroke="#0e3a44" stroke-width="3" fill="#cfeef2" stroke-linejoin="round">
+    <path d="M640 360 V286 H840 V360 Z"/>
+  </g>
+  <path d="M640 300 H840" stroke="#0e3a44" stroke-width="2"/>
+  <!-- лифт справа -->
+  <g stroke="#0e3a44" stroke-width="3" fill="#e6f6f8" stroke-linejoin="round">
+    <rect x="700" y="90" width="120" height="170" rx="4"/>
+  </g>
+  <path d="M760 90 V260" stroke="#0e3a44" stroke-width="2"/>
+  <path d="M690 78 l14 -16 l14 16 z" fill="#14b8c4"/>
+
+  <!-- растение -->
+  <g stroke="#0e3a44" stroke-width="3" fill="#cfeef2" stroke-linejoin="round">
+    <path d="M300 360 v-30 h30 v30 z"/>
+  </g>
+  <g stroke="#2a7d3f" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M315 330 C308 296 300 296 296 284 M315 330 C322 298 334 298 338 284 M315 330 C315 302 315 292 315 280"/>
+  </g>
+
+  <!-- ===== РОБОТ ===== -->
+  <g transform="translate(360 120)">
+    <ellipse cx="120" cy="248" rx="110" ry="14" fill="#0e3a44" opacity="0.10"/>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="70" y="0" width="100" height="34" rx="12" fill="#cfeef2"/>
+      <rect x="82" y="12" width="76" height="10" rx="5" fill="#14b8c4"/>
+      <path d="M108 34 V60 M140 34 V60" fill="none"/>
+      <path d="M108 60 Q124 72 140 60" fill="none"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="74" y="68" width="120" height="96" rx="16" fill="#e6f7f9"/>
+      <circle cx="134" cy="116" r="19" fill="#ffffff"/>
+      <circle cx="134" cy="116" r="7" fill="#14b8c4"/>
+      <path d="M168 84 h16 M168 96 h16" opacity="0.6"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M74 104 L40 132 L24 176" fill="none"/>
+      <rect x="6" y="170" width="40" height="24" rx="6" fill="#cfeef2"/>
+      <path d="M12 194 l-4 26 M24 196 l-2 26 M36 196 l0 26 M44 194 l4 24" fill="none"/>
+    </g>
+    <g stroke="#0e3a44" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M82 164 L186 164 L202 212 L66 212 Z" fill="#cfeef2"/>
+      <path d="M82 164 L186 164 L202 212 L66 212 Z" fill="url(#c-stip)" stroke="none"/>
+      <circle cx="104" cy="228" r="19" fill="#ffffff"/>
+      <circle cx="104" cy="228" r="6" fill="#14b8c4"/>
+      <circle cx="176" cy="228" r="19" fill="#ffffff"/>
+      <circle cx="176" cy="228" r="6" fill="#14b8c4"/>
+      <path d="M140 212 l-6 28 M152 212 l-3 28 M164 212 l0 28 M176 212 l4 28" fill="none"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,94 @@
+---
+// Форма подписки. Провайдер-агностик: впишите endpoint рассылки в SUBSCRIBE_ACTION
+// (Mailchimp/SendPulse/Formspree/собственный). Пока пусто — форма предлагает RSS/Telegram.
+const SUBSCRIBE_ACTION = ''; // ← сюда URL приёма email от вашего провайдера
+const TELEGRAM = ''; // ← ссылка на Telegram-канал (опционально)
+---
+
+<section class="subscribe">
+  <div class="sub-head">
+    <h2>Подписка на новые материалы</h2>
+    <p class="muted">Дайджест новостей индустрии, кейсов и разборов. Без спама, отписка в один клик.</p>
+  </div>
+
+  <form class="sub-form" id="sub-form" data-action={SUBSCRIBE_ACTION}>
+    <input type="email" name="email" required placeholder="you@company.com" aria-label="Ваш email" autocomplete="email" />
+    <button type="submit" class="btn btn-primary">Подписаться</button>
+  </form>
+
+  <p class="sub-msg" id="sub-msg" role="status" hidden></p>
+
+  <p class="sub-alt muted">
+    Или следите удобным способом: <a href="/rss.xml">RSS-лента</a>{TELEGRAM ? <> · <a href={TELEGRAM} rel="noopener">Telegram</a></> : null}
+  </p>
+</section>
+
+<style>
+  .subscribe {
+    background: linear-gradient(180deg, #fff 0%, var(--surface-2) 100%);
+    border: var(--edge);
+    border-radius: var(--radius);
+    box-shadow: var(--pop);
+    padding: 32px;
+  }
+  .sub-head h2 { font-size: 1.5rem; margin: 0 0 8px; }
+  .sub-head p { margin: 0 0 20px; }
+  .sub-form { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sub-form input {
+    flex: 1 1 260px;
+    min-width: 0;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--navy);
+    background: #fff;
+    color: var(--text);
+    font-size: 0.98rem;
+    font-family: inherit;
+  }
+  .sub-form input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .sub-msg { margin: 14px 0 0; font-weight: 600; font-size: 0.92rem; }
+  .sub-msg.is-ok { color: var(--lime-strong); }
+  .sub-msg.is-err { color: #c0392b; }
+  .sub-alt { margin: 16px 0 0; font-size: 0.9rem; }
+  @media (max-width: 520px) { .sub-form button { width: 100%; } }
+</style>
+
+<script>
+  const form = document.getElementById('sub-form') as HTMLFormElement | null;
+  const msg = document.getElementById('sub-msg');
+  if (form && msg) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const action = form.dataset.action || '';
+      const email = (form.elements.namedItem('email') as HTMLInputElement)?.value?.trim();
+      if (!email) return;
+
+      const show = (text: string, ok: boolean) => {
+        msg.textContent = text;
+        msg.classList.toggle('is-ok', ok);
+        msg.classList.toggle('is-err', !ok);
+        msg.hidden = false;
+      };
+
+      if (!action) {
+        show('Приём подписок ещё не подключён. Пока доступны RSS и Telegram выше.', false);
+        return;
+      }
+      try {
+        const res = await fetch(action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (res.ok) {
+          form.reset();
+          show('Готово! Проверьте почту для подтверждения.', true);
+        } else {
+          show('Не удалось подписаться. Попробуйте позже.', false);
+        }
+      } catch {
+        show('Сеть недоступна. Попробуйте позже.', false);
+      }
+    });
+  }
+</script>

@@ -1,0 +1,288 @@
+---
+// Карусель-герой с маскотами. Кадры едут горизонтально (выезжают
+// один за другим). Каждый маскот показан в рамке-панели, фон которой
+// совпадает с фоном картинки — «запечённый» фон не даёт шва.
+const MASCOTS = [
+  { src: '/mascot/2.png', alt: 'Робот моет пол', edge: '#cfeef2', stage: '#ffffff' },
+  { src: '/mascot/3.png', alt: 'Робот приветствует', edge: '#dcf3c6', stage: '#ffffff' },
+  { src: '/mascot/4.png', alt: 'Робот с пылесосом', edge: '#cdeef5', stage: '#ffffff' },
+  { src: '/mascot/1.png', alt: 'Робот со спреем', edge: '#dceef0', stage: '#000000' },
+];
+// В ленту добавляем клон первого кадра в конец — для бесшовной петли.
+const SLIDES = [...MASCOTS, MASCOTS[0]];
+const first = MASCOTS[0];
+---
+
+<section class="mhero" id="mhero" style={`--sec-bg:${first.edge}`}>
+  <div class="mhero-ghost" aria-hidden="true">CLEAN</div>
+
+  <div class="mhero-stage">
+    <div class="mh-track" id="mh-track">
+      {SLIDES.map((m) => (
+        <div class="mh-slide" style={`background:${m.stage}`}>
+          <img src={m.src} alt={m.alt} draggable="false" loading="eager" />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container mhero-ui">
+    <div class="mhero-copy">
+      <span class="eyebrow">Робототехника для клининга</span>
+      <h1 class="mhero-title">
+        Роботы, которые убирают<br />офисы, склады и <span class="hl">бизнес-центры</span>
+      </h1>
+      <p class="mhero-sub">
+        Разборы моделей, технологии автономной уборки и практика внедрения.
+        Материалы готовит ИИ-редакция на основе реальных источников.
+      </p>
+      <div class="mhero-cta">
+        <a href="/articles" class="btn btn-primary">Читать статьи</a>
+        <a href="/about" class="btn btn-ghost">О проекте</a>
+      </div>
+    </div>
+
+    <div class="mhero-nav" aria-label="Переключение маскотов">
+      <button class="mh-arrow" data-dir="-1" aria-label="Предыдущий">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="mh-thumbs">
+        {MASCOTS.map((m, i) => (
+          <button class={`mh-thumb${i === 0 ? ' is-active' : ''}`} data-goto={i} data-edge={m.edge} aria-label={`Маскот ${i + 1}`} style={`background:${m.stage}`}>
+            <img src={m.src} alt="" draggable="false" />
+          </button>
+        ))}
+      </div>
+      <button class="mh-arrow" data-dir="1" aria-label="Следующий">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mhero {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(560px, 84vh, 880px);
+    display: flex;
+    background: var(--sec-bg);
+    transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: var(--edge);
+  }
+  /* светлая подложка под копию — текст читаем на любом слайде */
+  .mhero::before {
+    content: '';
+    position: absolute;
+    inset: 0 42% 0 0;
+    background: linear-gradient(96deg, rgba(255, 255, 255, 0.92) 32%, rgba(255, 255, 255, 0) 74%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* гигантский призрачный текст */
+  .mhero-ghost {
+    position: absolute;
+    inset-inline: 0;
+    top: 15%;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(96px, 26vw, 360px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #d6f2f5;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* рамка-панель со слайдером внутри */
+  .mhero-stage {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(280px, 37vw, 500px);
+    aspect-ratio: 1 / 1;
+    border: var(--edge);
+    border-radius: 26px;
+    box-shadow: var(--pop);
+    overflow: hidden;
+    background: #fff;
+    z-index: 4;
+  }
+  .mh-track {
+    display: flex;
+    height: 100%;
+    width: 500%;
+    transform: translateX(0);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .mh-slide {
+    flex: 0 0 20%;
+    height: 100%;
+    display: grid;
+    place-items: end center;
+  }
+  .mh-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  /* интерфейс */
+  .mhero-ui {
+    position: relative;
+    z-index: 10;
+    align-self: center;
+    width: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+    padding-block: 40px;
+  }
+  .mhero-copy { max-width: 440px; }
+  .mhero-title {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    margin: 14px 0 16px;
+    text-shadow: 0 2px 18px rgba(255, 255, 255, 0.55);
+  }
+  .mhero-title .hl { color: var(--accent); }
+  .mhero-sub {
+    font-size: 1.05rem;
+    margin: 0 0 24px;
+    color: var(--text-muted);
+    text-shadow: 0 1px 12px rgba(255, 255, 255, 0.5);
+  }
+  .mhero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .mhero-nav { display: flex; align-items: center; gap: 12px; }
+  .mh-arrow {
+    flex: none;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--navy);
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--navy);
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .mh-arrow svg { width: 24px; height: 24px; }
+  .mh-arrow:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.85); }
+
+  .mh-thumbs { display: flex; gap: 10px; }
+  .mh-thumb {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    border: 2px solid var(--navy);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.55;
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .mh-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .mh-thumb:hover { transform: translateY(-2px); }
+  .mh-thumb.is-active { opacity: 1; box-shadow: 0 0 0 3px var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .mhero { min-height: auto; }
+    .mhero::before { display: none; }
+    .mhero-ui { padding-top: 340px; padding-bottom: 40px; gap: 26px; }
+    .mhero-copy { max-width: none; }
+    .mhero-stage {
+      right: auto;
+      left: 50%;
+      top: 28px;
+      transform: translateX(-50%);
+      width: min(300px, 74%);
+    }
+    .mhero-ghost { top: 40px; font-size: clamp(80px, 22vw, 160px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mh-track { transition: none; }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('mhero');
+  const track = document.getElementById('mh-track');
+  if (root && track) {
+    const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>('.mh-thumb'));
+    const arrows = Array.from(root.querySelectorAll<HTMLButtonElement>('.mh-arrow'));
+    const n = thumbs.length;           // 4 реальных кадра
+    const step = 100 / (n + 1);        // ширина одного кадра в % от ленты (клон в конце)
+    const DUR = 620;                   // длительность слайда, мс
+    let pos = 0;                       // позиция ленты 0..n (n = клон кадра 0)
+    let lock = false;
+    let timer: number | undefined;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function move(p: number, animate: boolean) {
+      track!.style.transition = animate ? 'transform 0.6s cubic-bezier(0.4,0,0.2,1)' : 'none';
+      track!.style.transform = `translateX(-${p * step}%)`;
+    }
+    function setBg(real: number) {
+      const t = thumbs[real];
+      if (t?.dataset.edge) root!.style.setProperty('--sec-bg', t.dataset.edge);
+      thumbs.forEach((el, k) => el.classList.toggle('is-active', k === real));
+    }
+
+    function next() {
+      if (lock) return;
+      lock = true;
+      pos += 1;
+      move(pos, true);
+      setBg(pos % n);
+      window.setTimeout(() => {
+        if (pos === n) { pos = 0; move(0, false); }  // бесшовный возврат с клона
+        lock = false;
+      }, DUR);
+    }
+    function prev() {
+      if (lock) return;
+      lock = true;
+      if (pos === 0) {
+        pos = n;                    // мгновенно на клон (визуально = кадр 0)
+        move(pos, false);
+        void track!.offsetHeight;   // reflow, чтобы прыжок не анимировался
+      }
+      pos -= 1;
+      move(pos, true);
+      setBg(((pos % n) + n) % n);
+      window.setTimeout(() => { lock = false; }, DUR);
+    }
+    function goTo(i: number) {
+      if (lock || i === pos % n) return;
+      lock = true;
+      pos = i;
+      move(pos, true);
+      setBg(i);
+      window.setTimeout(() => { lock = false; }, DUR);
+    }
+    function restart() {
+      if (reduce) return;
+      if (timer) window.clearInterval(timer);
+      timer = window.setInterval(next, 5000);
+    }
+
+    arrows.forEach((b) =>
+      b.addEventListener('click', () => { Number(b.dataset.dir) > 0 ? next() : prev(); restart(); })
+    );
+    thumbs.forEach((b) =>
+      b.addEventListener('click', () => { goTo(Number(b.dataset.goto)); restart(); })
+    );
+    root.addEventListener('mouseenter', () => { if (timer) window.clearInterval(timer); });
+    root.addEventListener('mouseleave', restart);
+
+    restart();
+  }
+</script>

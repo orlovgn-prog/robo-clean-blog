@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import RubricNav from '../../components/RubricNav.astro';
+import { RUBRICS, rubricOf } from '../../utils/taxonomy';
+
+export async function getStaticPaths() {
+  const all = await getCollection('articles', ({ data }) => !data.draft);
+  return RUBRICS.filter((r) => all.some((a) => rubricOf(a.data) === r.name)).map((r) => ({
+    params: { rubric: r.slug },
+    props: { rubric: r },
+  }));
+}
+
+const { rubric } = Astro.props;
+const items = (await getCollection('articles', ({ data }) => !data.draft))
+  .filter((a) => rubricOf(a.data) === rubric.name)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={`${rubric.name} — RoboClean`} description={rubric.desc}>
+  <section class="section">
+    <div class="container">
+      <RubricNav active={rubric.name} />
+      <header class="page-head">
+        <span class="eyebrow">Рубрика</span>
+        <h1>{rubric.name}</h1>
+        <p class="muted">{rubric.desc}. Материалов: {items.length}.</p>
+      </header>
+      <div class="grid">
+        {items.map((a) => <ArticleCard entry={a} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head { margin-bottom: 28px; }
+  .page-head h1 { font-size: 2.4rem; margin: 10px 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>

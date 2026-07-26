@@ -1,0 +1,126 @@
+---
+import { formatDate, estimateReadingTime } from '../utils/format';
+import { pickAnimation } from '../utils/anim';
+import { rubricOf } from '../utils/taxonomy';
+import ArticleAnimation from './ArticleAnimation.astro';
+
+interface Props {
+  entry: any;
+  featured?: boolean;
+}
+const { entry, featured = false } = Astro.props;
+const { data } = entry;
+const href = `/articles/${entry.id}/`;
+const rubric = rubricOf(data);
+const readingTime = data.readingTime ?? estimateReadingTime(entry.body ?? '');
+const animKey = pickAnimation({
+  animation: data.animation,
+  rubric: data.rubric,
+  category: data.category,
+  tags: data.tags,
+});
+---
+
+<article class={`card${featured ? ' card--featured' : ''}`}>
+  <a href={href} class="card-link" aria-label={data.title}></a>
+  <div class="card-cover">
+    <ArticleAnimation name={animKey} static={true} />
+  </div>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="chip chip--accent">{rubric}</span>
+      {readingTime && <span class="muted card-rt">{readingTime} мин чтения</span>}
+    </div>
+    <h3 class="card-title">{data.title}</h3>
+    <p class="card-desc">{data.description}</p>
+    <div class="card-foot">
+      <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+      <span class="card-arrow" aria-hidden="true">→</span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+    background: #fff;
+    border: var(--edge);
+    border-radius: var(--radius);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+    height: 100%;
+  }
+  .card-body {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+  .card-body a { pointer-events: auto; }
+  .card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--pop);
+  }
+  .card-link {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    z-index: 1;
+  }
+  .card-cover {
+    margin: -22px -22px 6px;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    border-bottom: var(--edge);
+    background: #e6f6f8;
+  }
+  .card-cover :global(.anim) { transition: transform 0.3s ease; }
+  .card:hover .card-cover :global(.anim) { transform: scale(1.03); }
+
+  .card--featured { flex-direction: row; align-items: stretch; gap: 0; padding: 0; overflow: hidden; box-shadow: var(--pop); }
+  .card--featured:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 0 #e6f7f9, 9px 9px 0 2px #0e3a44; }
+  .card--featured .card-cover {
+    margin: 0;
+    flex: 0 0 46%;
+    border-radius: 0;
+    border-bottom: none;
+    border-right: var(--edge);
+    display: flex;
+  }
+  .card--featured .card-cover :global(.anim) { height: 100%; aspect-ratio: auto; }
+  .card--featured .card-body { padding: 32px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-rt { font-size: 0.8rem; }
+  .card-title { font-size: 1.25rem; margin: 0; }
+  .card--featured .card-title { font-size: 1.75rem; }
+  .card-desc {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.96rem;
+    flex: 1;
+  }
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+  .card-arrow {
+    color: var(--accent);
+    font-size: 1.1rem;
+    transition: transform 0.15s ease;
+  }
+  .card:hover .card-arrow { transform: translateX(4px); }
+</style>

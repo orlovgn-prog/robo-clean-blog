@@ -1,0 +1,31 @@
+---
+import { RUBRICS } from '../utils/taxonomy';
+interface Props {
+  active?: string; // имя активной рубрики; пусто = «Все»
+}
+const { active } = Astro.props;
+---
+
+<nav class="rubnav" aria-label="Рубрики">
+  <a href="/articles" class={`rubchip${!active ? ' is-active' : ''}`}>Все</a>
+  {RUBRICS.map((r) => (
+    <a href={`/rubric/${r.slug}/`} class={`rubchip${active === r.name ? ' is-active' : ''}`}>{r.name}</a>
+  ))}
+</nav>
+
+<style>
+  .rubnav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .rubchip {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1.5px solid var(--navy);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 0 0 #cfeef2;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+  }
+  .rubchip:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 0 #cfeef2; color: var(--accent); }
+  .rubchip.is-active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 2px 2px 0 0 var(--navy); }
+</style>
