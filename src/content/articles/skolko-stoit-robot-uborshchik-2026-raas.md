@@ -6,7 +6,7 @@ category: "Офисы"
 tags: ["цена", "RaaS", "бюджет", "TCO", "аренда"]
 readingTime: 6
 rubric: "Экономика"
-animation: "roi-chart"
+animation: "data-dashboard"
 origin: "editorial"
 ---
 

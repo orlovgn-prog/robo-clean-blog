@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Гайды"
 tags: ["BMS", "интеграция", "умное здание", "API", "автоматизация"]
 readingTime: 6
-animation: "route-map"
+animation: "cloud-connect"
 origin: "auto"
 draft: false
 ---

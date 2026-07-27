@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Интервью"
 tags: ["интервью", "бизнес-центр", "управление", "внедрение", "арендаторы"]
 readingTime: 5
-animation: "humans-robots"
+animation: "office-scene"
 origin: "auto"
 draft: false
 ---

@@ -6,7 +6,7 @@ category: "Офисы"
 rubric: "Интервью"
 tags: ["интервью", "клининг", "автоматизация", "операции", "персонал"]
 readingTime: 5
-animation: "humans-robots"
+animation: "robot-mop"
 origin: "auto"
 draft: false
 ---

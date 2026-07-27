@@ -6,7 +6,7 @@ category: "Склады"
 rubric: "Кейсы"
 tags: ["IKEA", "склад", "логистика", "кейс", "автоматизация уборки"]
 readingTime: 4
-animation: "robot-roll"
+animation: "warehouse-bot"
 origin: "auto"
 draft: false
 ---

@@ -6,7 +6,7 @@ category: "Технологии"
 tags: ["модели", "рынок", "Gausium", "Avidbots", "обзор"]
 readingTime: 7
 rubric: "Обзоры"
-animation: "scan-pulse"
+animation: "robot-mop"
 origin: "editorial"
 ---
 

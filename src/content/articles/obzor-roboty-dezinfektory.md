@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Обзоры"
 tags: ["дезинфекция", "UV", "обзор", "модели", "гигиена", "медицина"]
 readingTime: 6
-animation: "scan-pulse"
+animation: "floor-sparkle"
 origin: "auto"
 draft: false
 ---

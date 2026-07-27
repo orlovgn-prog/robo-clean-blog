@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Кейсы"
 tags: ["бизнес-центр", "офис", "кейс", "клининг", "автоматизация"]
 readingTime: 4
-animation: "robot-roll"
+animation: "office-scene"
 origin: "auto"
 draft: false
 ---

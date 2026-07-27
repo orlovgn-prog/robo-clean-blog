@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Гайды"
 tags: ["безопасность", "стандарты", "ISO", "сертификация", "эксплуатация"]
 readingTime: 5
-animation: "route-map"
+animation: "building-zones"
 origin: "auto"
 draft: false
 ---

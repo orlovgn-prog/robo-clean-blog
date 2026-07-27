@@ -6,7 +6,7 @@ category: "Офисы"
 rubric: "Гайды"
 tags: ["внедрение", "запуск", "пилот", "гайд", "пуско-наладка"]
 readingTime: 6
-animation: "route-map"
+animation: "timeline"
 origin: "auto"
 draft: false
 ---

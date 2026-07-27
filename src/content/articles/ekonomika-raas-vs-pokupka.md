@@ -6,7 +6,7 @@ category: "Офисы"
 rubric: "Экономика"
 tags: ["RaaS", "покупка", "TCO", "подписка", "аренда робота"]
 readingTime: 6
-animation: "roi-chart"
+animation: "cost-scale"
 origin: "auto"
 draft: false
 ---

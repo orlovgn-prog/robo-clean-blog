@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Новости"
 tags: ["Kärcher", "автономный флот", "Европа", "коммерческая уборка"]
 readingTime: 3
-animation: "robot-roll"
+animation: "robot-squad"
 origin: "auto"
 draft: false
 ---

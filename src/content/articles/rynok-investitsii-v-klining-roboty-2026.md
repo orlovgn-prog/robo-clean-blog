@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Рынок"
 tags: ["инвестиции", "стартапы", "рынок", "венчурный капитал", "робототехника"]
 readingTime: 5
-animation: "humans-robots"
+animation: "roi-chart"
 origin: "auto"
 draft: false
 ---

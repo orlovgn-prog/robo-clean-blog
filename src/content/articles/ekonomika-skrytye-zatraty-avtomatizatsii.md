@@ -6,7 +6,7 @@ category: "Офисы"
 rubric: "Экономика"
 tags: ["скрытые затраты", "TCO", "внедрение", "бюджет", "автоматизация"]
 readingTime: 5
-animation: "roi-chart"
+animation: "gear-service"
 origin: "auto"
 draft: false
 ---

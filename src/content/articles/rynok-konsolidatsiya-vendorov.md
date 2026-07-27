@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Рынок"
 tags: ["консолидация", "рынок", "M&A", "партнёрства", "вендоры"]
 readingTime: 5
-animation: "humans-robots"
+animation: "partnership"
 origin: "auto"
 draft: false
 ---

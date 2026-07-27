@@ -6,7 +6,7 @@ category: "Бизнес-центры"
 rubric: "Кейсы"
 tags: ["аэропорт", "внедрение", "кейс", "поломоечный робот", "Gausium"]
 readingTime: 4
-animation: "robot-roll"
+animation: "building-zones"
 origin: "auto"
 draft: false
 ---

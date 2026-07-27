@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Рынок"
 tags: ["регуляторика", "Россия", "законодательство", "сертификация", "безопасность"]
 readingTime: 5
-animation: "humans-robots"
+animation: "building-zones"
 origin: "auto"
 draft: false
 ---

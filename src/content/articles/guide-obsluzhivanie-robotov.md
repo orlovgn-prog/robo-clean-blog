@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Гайды"
 tags: ["обслуживание", "ТО", "расходники", "ремонт", "эксплуатация"]
 readingTime: 5
-animation: "route-map"
+animation: "battery-charge"
 origin: "auto"
 draft: false
 ---

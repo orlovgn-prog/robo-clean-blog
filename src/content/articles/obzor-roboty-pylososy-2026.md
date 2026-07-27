@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Обзоры"
 tags: ["роботы-пылесосы", "сравнение", "обзор", "SoftBank Whiz", "Gausium", "коммерческий клининг"]
 readingTime: 5
-animation: "scan-pulse"
+animation: "robot-vacuum"
 origin: "auto"
 draft: false
 ---

@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Новости"
 tags: ["Avidbots", "Neo 3", "скруббер", "автономная уборка", "анонс"]
 readingTime: 3
-animation: "robot-roll"
+animation: "lidar-scan"
 origin: "auto"
 draft: false
 ---

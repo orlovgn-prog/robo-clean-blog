@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Рынок"
 tags: ["рынок", "прогноз", "тренды", "2027", "аналитика"]
 readingTime: 6
-animation: "humans-robots"
+animation: "timeline"
 origin: "auto"
 draft: false
 ---

@@ -9,7 +9,7 @@ objectTypes: ["БЦ", "аэропорт"]
 vendors: ["SoftBank Robotics", "Gausium"]
 robotType: ["поломоечный", "подметальный"]
 readingTime: 2
-animation: "robot-roll"
+animation: "partnership"
 origin: "auto"
 source:
   name: "Robotics 24/7"

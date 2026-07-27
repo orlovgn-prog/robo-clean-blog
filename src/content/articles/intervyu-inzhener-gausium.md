@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Интервью"
 tags: ["интервью", "Gausium", "навигация", "SLAM", "LiDAR", "технологии"]
 readingTime: 5
-animation: "humans-robots"
+animation: "scan-pulse"
 origin: "auto"
 draft: false
 ---

@@ -6,7 +6,7 @@ category: "Технологии"
 rubric: "Новости"
 tags: ["Brain Corp", "BrainOS", "ИИ", "навигация", "программная платформа"]
 readingTime: 3
-animation: "robot-roll"
+animation: "data-dashboard"
 origin: "auto"
 draft: false
 ---

@@ -1,8 +1,4 @@
 ---
-// Анимированная иллюстрация статьи (SVG + CSS).
-// - подбор шаблона по ключу (name);
-// - `static` — заморозить (для превью в карточках);
-// - при prefers-reduced-motion анимация выключается, показывается «финальный» кадр (fallback).
 import type { AnimKey } from '../utils/anim';
 
 interface Props {
@@ -18,6 +14,21 @@ const labels: Record<AnimKey, string> = {
   'route-map': 'Схема маршрута автономной уборки',
   'humans-robots': 'Гибридная модель: люди и роботы',
   'scan-pulse': 'Сканирование и дезинфекция помещения',
+  'robot-mop': 'Робот моет пол щёткой',
+  'robot-vacuum': 'Робот-пылесос убирает поверхность',
+  'warehouse-bot': 'Робот убирает склад между стеллажами',
+  'office-scene': 'Робот убирает офисное пространство',
+  'data-dashboard': 'Панель управления данными уборки',
+  'battery-charge': 'Робот на зарядной станции',
+  'floor-sparkle': 'Чистый блестящий пол после уборки',
+  'lidar-scan': 'Лидар-сканирование пространства',
+  'cloud-connect': 'Облачное управление роботом',
+  'gear-service': 'Техническое обслуживание робота',
+  'cost-scale': 'Сравнение стоимости: ручной труд и робот',
+  'partnership': 'Партнёрство и сотрудничество',
+  'building-zones': 'План здания с зонами уборки',
+  'robot-squad': 'Парк уборочных роботов',
+  'timeline': 'Хронология и этапы внедрения',
 };
 ---
 
@@ -26,6 +37,8 @@ const labels: Record<AnimKey, string> = {
   role="img"
   aria-label={labels[name]}
 >
+
+  {/* 1. robot-roll */}
   {name === 'robot-roll' && (
     <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
       <rect class="bg-box" x="70" y="120" width="70" height="120" rx="4" />
@@ -46,6 +59,7 @@ const labels: Record<AnimKey, string> = {
     </svg>
   )}
 
+  {/* 2. roi-chart */}
   {name === 'roi-chart' && (
     <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
       <path d="M120 60 V300 H800" class="axis" />
@@ -60,19 +74,18 @@ const labels: Record<AnimKey, string> = {
     </svg>
   )}
 
+  {/* 3. route-map */}
   {name === 'route-map' && (
     <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
       <rect x="120" y="40" width="640" height="280" rx="14" class="room" />
       <rect x="300" y="120" width="90" height="60" rx="6" class="obstacle" />
       <rect x="520" y="200" width="70" height="70" rx="6" class="obstacle" />
-      <path
-        class="rm-path"
-        d="M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170"
-      />
+      <path class="rm-path" d="M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170" />
       <circle r="12" class="rm-dot" />
     </svg>
   )}
 
+  {/* 4. humans-robots */}
   {name === 'humans-robots' && (
     <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
       <g class="hr-fig hr-human">
@@ -87,13 +100,14 @@ const labels: Record<AnimKey, string> = {
         <path d="M540 300 h80 l14 -90 h-108 z" class="base" />
       </g>
       <g class="hr-link">
-        <path d="M368 200 h40 M472 200 h40" class="link-line" />
+        <path d="M368 200 h40 M472 200 h40" class="link-line" fill="none" />
         <circle cx="440" cy="200" r="20" class="link-node" />
-        <path d="M432 200 h16 M440 192 v16" class="link-plus" />
+        <path d="M432 200 h16 M440 192 v16" class="link-plus" fill="none" />
       </g>
     </svg>
   )}
 
+  {/* 5. scan-pulse */}
   {name === 'scan-pulse' && (
     <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
       <circle class="sp-ring" style="--d:0s" cx="440" cy="200" r="60" />
@@ -104,15 +118,320 @@ const labels: Record<AnimKey, string> = {
         <rect x="408" y="122" width="64" height="24" rx="10" class="head" />
         <rect x="418" y="129" width="44" height="10" rx="5" class="visor" />
         <circle cx="440" cy="192" r="16" class="eye" />
-        <path d="M410 230 h60 l10 -80 h-80 z" class="base" opacity="0" />
       </g>
       <path class="spark s1" d="M300 120 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6z" />
       <path class="spark s2" d="M600 240 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" />
     </svg>
   )}
+
+  {/* 6. robot-mop */}
+  {name === 'robot-mop' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <g class="mp-robot">
+        <ellipse cx="440" cy="286" rx="80" ry="8" class="shadow" />
+        <rect x="392" y="155" width="96" height="80" rx="18" class="body" />
+        <rect x="408" y="126" width="64" height="26" rx="10" class="head" />
+        <rect x="418" y="133" width="44" height="10" rx="5" class="visor" />
+        <circle cx="440" cy="196" r="14" class="eye" />
+        <circle cx="440" cy="196" r="5" class="pupil" />
+        <ellipse class="mp-brush" cx="440" cy="256" rx="65" ry="10" />
+        <circle class="mp-drop" style="--d:0s" cx="395" cy="270" r="3" />
+        <circle class="mp-drop" style="--d:.6s" cx="440" cy="274" r="2.5" />
+        <circle class="mp-drop" style="--d:1.2s" cx="485" cy="268" r="2" />
+      </g>
+    </svg>
+  )}
+
+  {/* 7. robot-vacuum (top-down) */}
+  {name === 'robot-vacuum' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g class="vc-body">
+        <circle cx="440" cy="180" r="70" class="fill-soft" />
+        <circle cx="440" cy="180" r="70" fill="none" stroke="var(--navy)" stroke-width="3" />
+        <circle cx="440" cy="180" r="28" fill="none" stroke="var(--accent)" stroke-width="2.5" class="vc-brush" />
+        <circle cx="440" cy="155" r="8" class="eye" />
+        <circle cx="440" cy="155" r="3" class="pupil" />
+        <path d="M470 150 a40 40 0 0 1 0 60" fill="none" stroke="var(--lime)" stroke-width="2" class="vc-sensor" />
+      </g>
+      <circle class="vc-dust" style="--d:0s" cx="300" cy="120" r="4" />
+      <circle class="vc-dust" style="--d:.5s" cx="560" cy="240" r="3" />
+      <circle class="vc-dust" style="--d:1s" cx="350" cy="260" r="3.5" />
+      <circle class="vc-dust" style="--d:1.5s" cx="580" cy="130" r="2.5" />
+    </svg>
+  )}
+
+  {/* 8. warehouse-bot */}
+  {name === 'warehouse-bot' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <rect x="100" y="60" width="100" height="230" rx="4" fill="none" stroke="var(--navy)" stroke-width="2.5" />
+      <line x1="100" y1="130" x2="200" y2="130" stroke="var(--navy)" stroke-width="2" />
+      <line x1="100" y1="200" x2="200" y2="200" stroke="var(--navy)" stroke-width="2" />
+      <rect x="120" y="70" width="60" height="50" rx="3" class="bg-box" />
+      <rect x="115" y="140" width="70" height="50" rx="3" class="bg-box" />
+      <rect x="390" y="60" width="100" height="230" rx="4" fill="none" stroke="var(--navy)" stroke-width="2.5" />
+      <line x1="390" y1="130" x2="490" y2="130" stroke="var(--navy)" stroke-width="2" />
+      <line x1="390" y1="200" x2="490" y2="200" stroke="var(--navy)" stroke-width="2" />
+      <rect x="405" y="70" width="70" height="50" rx="3" class="bg-box" />
+      <rect x="400" y="140" width="80" height="50" rx="3" class="bg-box" />
+      <rect x="680" y="60" width="100" height="230" rx="4" fill="none" stroke="var(--navy)" stroke-width="2.5" />
+      <line x1="680" y1="130" x2="780" y2="130" stroke="var(--navy)" stroke-width="2" />
+      <line x1="680" y1="200" x2="780" y2="200" stroke="var(--navy)" stroke-width="2" />
+      <rect x="695" y="70" width="70" height="50" rx="3" class="bg-box" />
+      <g class="wh-robot">
+        <ellipse cx="60" cy="286" rx="40" ry="6" class="shadow" />
+        <rect x="30" y="230" width="60" height="48" rx="12" class="body" />
+        <rect x="38" y="216" width="44" height="16" rx="7" class="head" />
+        <rect x="44" y="220" width="32" height="8" rx="4" class="visor" />
+        <circle cx="60" cy="256" r="8" class="eye" />
+      </g>
+    </svg>
+  )}
+
+  {/* 9. office-scene */}
+  {name === 'office-scene' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <rect x="100" y="180" width="180" height="80" rx="4" fill="none" stroke="var(--navy)" stroke-width="2.5" />
+      <rect x="160" y="140" width="60" height="40" rx="3" class="bg-box" />
+      <rect x="170" y="148" width="40" height="24" rx="2" fill="var(--accent)" opacity="0.3" />
+      <rect x="580" y="180" width="200" height="80" rx="4" fill="none" stroke="var(--navy)" stroke-width="2.5" />
+      <rect x="650" y="140" width="60" height="40" rx="3" class="bg-box" />
+      <rect x="660" y="148" width="40" height="24" rx="2" fill="var(--accent)" opacity="0.3" />
+      <circle cx="200" cy="290" r="16" fill="none" stroke="var(--line-strong)" stroke-width="2" />
+      <circle cx="680" cy="290" r="16" fill="none" stroke="var(--line-strong)" stroke-width="2" />
+      <g class="of-robot">
+        <ellipse cx="60" cy="286" rx="40" ry="6" class="shadow" />
+        <rect x="30" y="216" width="60" height="56" rx="14" class="body" />
+        <rect x="38" y="192" width="44" height="20" rx="8" class="head" />
+        <rect x="44" y="198" width="32" height="8" rx="4" class="visor" />
+        <circle cx="60" cy="246" r="10" class="eye" />
+        <circle cx="60" cy="246" r="4" class="pupil" />
+      </g>
+    </svg>
+  )}
+
+  {/* 10. data-dashboard */}
+  {name === 'data-dashboard' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <rect x="100" y="30" width="680" height="300" rx="16" fill="none" stroke="var(--navy)" stroke-width="3" />
+      <line x1="100" y1="80" x2="780" y2="80" stroke="var(--line)" stroke-width="2" />
+      <circle cx="130" cy="55" r="8" fill="var(--accent)" opacity="0.5" />
+      <circle cx="155" cy="55" r="8" fill="var(--lime)" opacity="0.5" />
+      <circle cx="180" cy="55" r="8" fill="var(--accent-soft)" />
+      <rect class="dd-bar" style="--d:0s" x="160" y="220" width="50" height="80" rx="4" />
+      <rect class="dd-bar" style="--d:.15s" x="240" y="170" width="50" height="130" rx="4" />
+      <rect class="dd-bar dd-bar--hi" style="--d:.3s" x="320" y="130" width="50" height="170" rx="4" />
+      <rect class="dd-bar" style="--d:.45s" x="400" y="180" width="50" height="120" rx="4" />
+      <path class="dd-line" d="M540 260 L590 220 L640 240 L690 160 L740 180" />
+      <circle class="dd-dot" cx="740" cy="180" r="6" />
+    </svg>
+  )}
+
+  {/* 11. battery-charge */}
+  {name === 'battery-charge' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <rect x="160" y="200" width="140" height="90" rx="10" fill="none" stroke="var(--navy)" stroke-width="3" />
+      <rect x="180" y="220" width="30" height="50" rx="4" fill="var(--accent-soft)" stroke="var(--navy)" stroke-width="2" />
+      <rect x="240" y="230" width="40" height="8" rx="2" fill="var(--accent)" opacity="0.5" />
+      <g>
+        <ellipse cx="460" cy="286" rx="70" ry="8" class="shadow" />
+        <rect x="412" y="178" width="96" height="80" rx="18" class="body" />
+        <rect x="428" y="150" width="64" height="24" rx="10" class="head" />
+        <rect x="438" y="157" width="44" height="10" rx="5" class="visor" />
+        <circle cx="460" cy="220" r="14" class="eye" />
+        <circle cx="460" cy="220" r="5" class="pupil" />
+      </g>
+      <line x1="300" y1="245" x2="412" y2="220" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 4" class="bc-cable" />
+      <rect x="620" y="120" width="80" height="130" rx="8" fill="none" stroke="var(--navy)" stroke-width="3" />
+      <rect x="642" y="108" width="36" height="14" rx="4" fill="var(--navy)" />
+      <rect class="bc-fill" x="628" y="190" width="64" height="52" rx="4" />
+      <path class="bc-bolt" d="M656 145 l-8 22 h14 l-8 22" fill="none" stroke="var(--lime)" stroke-width="3" stroke-linecap="round" />
+    </svg>
+  )}
+
+  {/* 12. floor-sparkle */}
+  {name === 'floor-sparkle' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.25">
+        <line x1="100" y1="120" x2="780" y2="120" stroke="var(--navy)" stroke-width="1.5" />
+        <line x1="100" y1="190" x2="780" y2="190" stroke="var(--navy)" stroke-width="1.5" />
+        <line x1="100" y1="260" x2="780" y2="260" stroke="var(--navy)" stroke-width="1.5" />
+        <line x1="236" y1="50" x2="236" y2="330" stroke="var(--navy)" stroke-width="1.5" />
+        <line x1="440" y1="50" x2="440" y2="330" stroke="var(--navy)" stroke-width="1.5" />
+        <line x1="644" y1="50" x2="644" y2="330" stroke="var(--navy)" stroke-width="1.5" />
+      </g>
+      <path class="fs-star" style="--d:0s" d="M200 90 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" />
+      <path class="fs-star" style="--d:.5s" d="M500 155 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" />
+      <path class="fs-star" style="--d:1s" d="M340 230 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" />
+      <path class="fs-star" style="--d:1.5s" d="M680 100 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" />
+      <path class="fs-star" style="--d:2s" d="M580 280 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" />
+      <path class="fs-star" style="--d:2.5s" d="M160 280 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" />
+      <path class="fs-star" style="--d:3s" d="M720 210 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" />
+    </svg>
+  )}
+
+  {/* 13. lidar-scan */}
+  {name === 'lidar-scan' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g class="ls-beam">
+        <path d="M440 178 L340 78 A140 140 0 0 1 540 78 Z" fill="var(--accent)" opacity="0.12" />
+        <line x1="440" y1="178" x2="440" y2="38" stroke="var(--accent)" stroke-width="2" opacity="0.4" />
+      </g>
+      <rect x="404" y="148" width="72" height="60" rx="14" class="body" />
+      <rect x="414" y="130" width="52" height="18" rx="8" class="head" />
+      <rect x="422" y="135" width="36" height="8" rx="4" class="visor" />
+      <circle cx="440" cy="178" r="10" class="eye" />
+      <circle class="ls-dot" style="--d:0s" cx="300" cy="280" r="5" />
+      <circle class="ls-dot" style="--d:.8s" cx="600" cy="100" r="5" />
+      <circle class="ls-dot" style="--d:1.6s" cx="200" cy="150" r="5" />
+      <circle class="ls-dot" style="--d:2.4s" cx="680" cy="260" r="5" />
+    </svg>
+  )}
+
+  {/* 14. cloud-connect */}
+  {name === 'cloud-connect' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <path class="cc-cloud" d="M350 120 Q320 120 320 92 Q320 60 365 54 Q378 25 440 25 Q502 25 515 54 Q560 60 560 92 Q560 120 530 120 Z" />
+      <line x1="440" y1="120" x2="440" y2="250" stroke="var(--navy)" stroke-width="2" stroke-dasharray="6 5" opacity="0.35" />
+      <rect x="400" y="250" width="80" height="60" rx="14" class="body" />
+      <rect x="412" y="234" width="56" height="16" rx="7" class="head" />
+      <rect x="420" y="239" width="40" height="7" rx="3" class="visor" />
+      <circle cx="440" cy="280" r="10" class="eye" />
+      <circle class="cc-pkt" style="--d:0s" cx="430" cy="250" r="5" />
+      <circle class="cc-pkt" style="--d:1s" cx="450" cy="250" r="5" />
+      <circle class="cc-pkt" style="--d:2s" cx="440" cy="250" r="4" />
+    </svg>
+  )}
+
+  {/* 15. gear-service */}
+  {name === 'gear-service' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g class="gs-g1">
+        <circle cx="340" cy="190" r="70" fill="#e6f6f8" stroke="var(--navy)" stroke-width="3" />
+        <circle cx="340" cy="190" r="70" fill="none" stroke="var(--navy)" stroke-width="14" stroke-dasharray="18 16" />
+        <circle cx="340" cy="190" r="18" fill="var(--accent-soft)" stroke="var(--navy)" stroke-width="2.5" />
+      </g>
+      <g class="gs-g2">
+        <circle cx="510" cy="120" r="46" fill="#e6f6f8" stroke="var(--navy)" stroke-width="3" />
+        <circle cx="510" cy="120" r="46" fill="none" stroke="var(--navy)" stroke-width="12" stroke-dasharray="14 12" />
+        <circle cx="510" cy="120" r="12" fill="var(--accent-soft)" stroke="var(--navy)" stroke-width="2.5" />
+      </g>
+      <path class="gs-wrench" d="M560 220 l70 70 M618 278 l16 16 M622 274 l16 16" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )}
+
+  {/* 16. cost-scale */}
+  {name === 'cost-scale' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="440,220 420,290 460,290" fill="var(--navy)" />
+      <g class="cs-beam">
+        <line x1="200" y1="220" x2="680" y2="220" stroke="var(--navy)" stroke-width="4" stroke-linecap="round" />
+        <line x1="200" y1="220" x2="160" y2="270" stroke="var(--navy)" stroke-width="2" />
+        <line x1="200" y1="220" x2="240" y2="270" stroke="var(--navy)" stroke-width="2" />
+        <path d="M150 270 a50 15 0 0 0 100 0" fill="var(--accent-soft)" stroke="var(--navy)" stroke-width="2" />
+        <circle cx="200" cy="240" r="10" class="fill-soft" />
+        <path d="M188 268 v-6 a12 12 0 0 1 24 0 v6" class="fill-soft" />
+        <line x1="680" y1="220" x2="640" y2="270" stroke="var(--navy)" stroke-width="2" />
+        <line x1="680" y1="220" x2="720" y2="270" stroke="var(--navy)" stroke-width="2" />
+        <path d="M630 270 a50 15 0 0 0 100 0" fill="var(--accent-soft)" stroke="var(--navy)" stroke-width="2" />
+        <rect x="666" y="236" width="28" height="24" rx="6" class="body" />
+        <rect x="670" y="228" width="20" height="8" rx="3" class="head" />
+        <rect x="674" y="231" width="12" height="3" rx="1.5" fill="var(--accent)" />
+      </g>
+    </svg>
+  )}
+
+  {/* 17. partnership */}
+  {name === 'partnership' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <g class="pt-left">
+        <circle cx="260" cy="140" r="30" class="fill-soft" />
+        <path d="M218 280 v-40 a42 42 0 0 1 84 0 v40" class="fill-soft" />
+      </g>
+      <g class="pt-right">
+        <rect x="570" y="118" width="80" height="66" rx="14" class="body" />
+        <rect x="582" y="94" width="56" height="20" rx="8" class="head" />
+        <rect x="590" y="100" width="40" height="8" rx="4" class="visor" />
+        <circle cx="610" cy="152" r="12" class="eye" />
+        <rect x="585" y="184" width="50" height="96" rx="6" class="fill-soft" />
+      </g>
+      <g class="pt-bridge">
+        <path d="M336 200 h70 M474 200 h-70" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 6" />
+        <circle cx="440" cy="200" r="24" fill="var(--lime)" stroke="var(--navy)" stroke-width="2.5" />
+        <path d="M430 200 h20 M440 190 v20" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" />
+      </g>
+    </svg>
+  )}
+
+  {/* 18. building-zones */}
+  {name === 'building-zones' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <rect x="140" y="40" width="600" height="280" rx="10" fill="none" stroke="var(--navy)" stroke-width="3" />
+      <line x1="440" y1="40" x2="440" y2="320" stroke="var(--navy)" stroke-width="2" />
+      <line x1="140" y1="180" x2="740" y2="180" stroke="var(--navy)" stroke-width="2" />
+      <rect class="bz-zone" style="--d:0s" x="142" y="42" width="296" height="136" rx="2" />
+      <rect class="bz-zone" style="--d:.6s" x="442" y="42" width="296" height="136" rx="2" />
+      <rect class="bz-zone" style="--d:1.2s" x="142" y="182" width="296" height="136" rx="2" />
+      <rect class="bz-zone" style="--d:1.8s" x="442" y="182" width="296" height="136" rx="2" />
+      <text x="290" y="118" text-anchor="middle" fill="var(--navy)" font-size="18" font-weight="700" opacity="0.35">A</text>
+      <text x="590" y="118" text-anchor="middle" fill="var(--navy)" font-size="18" font-weight="700" opacity="0.35">B</text>
+      <text x="290" y="258" text-anchor="middle" fill="var(--navy)" font-size="18" font-weight="700" opacity="0.35">C</text>
+      <text x="590" y="258" text-anchor="middle" fill="var(--navy)" font-size="18" font-weight="700" opacity="0.35">D</text>
+    </svg>
+  )}
+
+  {/* 19. robot-squad */}
+  {name === 'robot-squad' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="290" x2="880" y2="290" class="floor" />
+      <g class="sq-fleet">
+        <g>
+          <ellipse cx="80" cy="286" rx="35" ry="5" class="shadow" />
+          <rect x="52" y="222" width="56" height="50" rx="12" class="body" />
+          <rect x="60" y="206" width="40" height="16" rx="7" class="head" />
+          <rect x="66" y="210" width="28" height="8" rx="4" class="visor" />
+          <circle cx="80" cy="248" r="8" class="eye" />
+        </g>
+        <g transform="translate(-70, -35) scale(0.78)">
+          <ellipse cx="80" cy="286" rx="35" ry="5" class="shadow" />
+          <rect x="52" y="222" width="56" height="50" rx="12" class="body" />
+          <rect x="60" y="206" width="40" height="16" rx="7" class="head" />
+          <rect x="66" y="210" width="28" height="8" rx="4" class="visor" />
+          <circle cx="80" cy="248" r="8" class="eye" />
+        </g>
+        <g transform="translate(80, -35) scale(0.78)">
+          <ellipse cx="80" cy="286" rx="35" ry="5" class="shadow" />
+          <rect x="52" y="222" width="56" height="50" rx="12" class="body" />
+          <rect x="60" y="206" width="40" height="16" rx="7" class="head" />
+          <rect x="66" y="210" width="28" height="8" rx="4" class="visor" />
+          <circle cx="80" cy="248" r="8" class="eye" />
+        </g>
+      </g>
+    </svg>
+  )}
+
+  {/* 20. timeline */}
+  {name === 'timeline' && (
+    <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+      <line x1="120" y1="200" x2="760" y2="200" stroke="var(--line-strong)" stroke-width="3" />
+      <line class="tl-progress" x1="120" y1="200" x2="760" y2="200" />
+      <g class="tl-ms" style="--d:0s"><circle cx="200" cy="200" r="14" /><text x="200" y="168" text-anchor="middle" fill="var(--navy)" font-size="14" font-weight="700">1</text></g>
+      <g class="tl-ms" style="--d:.4s"><circle cx="360" cy="200" r="14" /><text x="360" y="168" text-anchor="middle" fill="var(--navy)" font-size="14" font-weight="700">2</text></g>
+      <g class="tl-ms" style="--d:.8s"><circle cx="520" cy="200" r="14" /><text x="520" y="168" text-anchor="middle" fill="var(--navy)" font-size="14" font-weight="700">3</text></g>
+      <g class="tl-ms" style="--d:1.2s"><circle cx="680" cy="200" r="14" /><text x="680" y="168" text-anchor="middle" fill="var(--navy)" font-size="14" font-weight="700">4</text></g>
+      <text x="200" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="12">Анализ</text>
+      <text x="360" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="12">Пилот</text>
+      <text x="520" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="12">Внедрение</text>
+      <text x="680" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="12">Масштаб</text>
+    </svg>
+  )}
+
 </div>
 
-<style>
+<style is:global>
   .anim {
     display: block;
     width: 100%;
@@ -121,76 +440,180 @@ const labels: Record<AnimKey, string> = {
     overflow: hidden;
   }
   .anim svg { width: 100%; height: 100%; display: block; }
+  .anim text { font-family: var(--font-sans, 'Inter', sans-serif); }
 
-  /* общие цвета */
-  .floor { stroke: var(--line-strong); stroke-width: 2; }
-  .shadow { fill: var(--navy); opacity: 0.08; }
-  .bg-box { fill: #d7eef1; }
-  .body { fill: #e6f7f9; stroke: var(--navy); stroke-width: 3; }
-  .head { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
-  .visor { fill: var(--accent); }
-  .eye { fill: #fff; stroke: var(--navy); stroke-width: 2.5; }
-  .pupil { fill: var(--accent); }
-  .base { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
-  .wheel { fill: #fff; stroke: var(--navy); stroke-width: 3; }
-  .spoke { stroke: var(--navy); stroke-width: 2; }
-  .speed { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; fill: none; }
-  .bub circle { fill: none; stroke: var(--accent); stroke-width: 2; }
-  .fill-soft { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  /* --- shared tokens --- */
+  .anim .floor { stroke: var(--line-strong); stroke-width: 2; }
+  .anim .shadow { fill: var(--navy); opacity: 0.08; }
+  .anim .bg-box { fill: #d7eef1; }
+  .anim .body { fill: #e6f7f9; stroke: var(--navy); stroke-width: 3; }
+  .anim .head { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  .anim .visor { fill: var(--accent); }
+  .anim .eye { fill: #fff; stroke: var(--navy); stroke-width: 2.5; }
+  .anim .pupil { fill: var(--accent); }
+  .anim .base { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  .anim .fill-soft { fill: #cfeef2; stroke: var(--navy); stroke-width: 3; }
+  .anim .room { fill: #ffffff; stroke: var(--navy); stroke-width: 3; }
+  .anim .obstacle { fill: #cfeef2; stroke: var(--navy); stroke-width: 2.5; }
+  .anim .speed { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; fill: none; }
+  .anim .bub circle { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .anim .axis { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linecap: round; }
 
-  /* robot-roll */
-  .rr-robot { animation: rr-move 7s ease-in-out infinite; }
-  .rr-wheel { transform-box: fill-box; animation: rr-spin 1.1s linear infinite; }
-  .rr-robot .bub { animation: rr-bub 2.6s ease-in infinite; }
-  .rr-robot .b2 { animation-delay: 0.8s; }
+  /* 1. robot-roll */
+  .anim .rr-robot { animation: rr-move 7s ease-in-out infinite; }
+  .anim .rr-robot .bub { animation: rr-bub 2.6s ease-in infinite; }
+  .anim .rr-robot .b2 { animation-delay: 0.8s; }
   @keyframes rr-move { 0%,100% { transform: translateX(60px); } 50% { transform: translateX(560px); } }
-  @keyframes rr-spin { to { transform: rotate(360deg); } }
   @keyframes rr-bub { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px); } }
 
-  /* roi-chart */
-  .axis { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linecap: round; }
-  .rc-bar { fill: #bfe7ec; stroke: var(--navy); stroke-width: 2.5; transform-box: fill-box; animation: rc-grow 1s ease-out var(--d) both; }
-  .rc-bar--hi { fill: var(--accent); }
-  .rc-trend { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 520; stroke-dashoffset: 0; animation: draw 1.6s ease-out 0.4s both; }
-  .rc-arrow { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  /* 2. roi-chart */
+  .anim .rc-bar { fill: #bfe7ec; stroke: var(--navy); stroke-width: 2.5; transform-box: fill-box; transform-origin: bottom; animation: rc-grow 1s ease-out var(--d) both; }
+  .anim .rc-bar--hi { fill: var(--accent); }
+  .anim .rc-trend { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 520; stroke-dashoffset: 0; animation: rc-draw 1.6s ease-out 0.4s both; }
+  .anim .rc-arrow { fill: none; stroke: var(--lime); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
   @keyframes rc-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-  @keyframes draw { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
+  @keyframes rc-draw { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
 
-  /* route-map */
-  .room { fill: #ffffff; stroke: var(--navy); stroke-width: 3; }
-  .obstacle { fill: #cfeef2; stroke: var(--navy); stroke-width: 2.5; }
-  .rm-path { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2600; stroke-dashoffset: 0; animation: rm-draw 5s linear infinite; }
-  .rm-dot { fill: var(--lime); stroke: #fff; stroke-width: 2; offset-path: path('M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170'); offset-distance: 0%; animation: rm-run 5s linear infinite; }
+  /* 3. route-map */
+  .anim .rm-path { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2600; stroke-dashoffset: 0; animation: rm-draw 5s linear infinite; }
+  .anim .rm-dot { fill: var(--lime); stroke: #fff; stroke-width: 2; offset-path: path('M170 90 H710 M710 90 V150 M710 150 H170 M170 150 V210 M170 210 H710 M710 210 V270 M710 270 H170'); offset-distance: 0%; animation: rm-run 5s linear infinite; }
   @keyframes rm-draw { from { stroke-dashoffset: 2600; } to { stroke-dashoffset: 0; } }
   @keyframes rm-run { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 
-  /* humans-robots */
-  .hr-fig { animation: hr-bob 3.4s ease-in-out infinite; }
-  .hr-robot { animation-delay: 0.6s; transform-box: fill-box; }
-  .hr-human { transform-box: fill-box; }
-  .hr-link .link-line { stroke: var(--navy); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 4 6; }
-  .hr-link .link-node { fill: var(--lime); stroke: var(--navy); stroke-width: 2.5; }
-  .hr-link .link-plus { stroke: #fff; stroke-width: 3; stroke-linecap: round; }
-  .hr-link { animation: hr-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: 440px 200px; }
+  /* 4. humans-robots */
+  .anim .hr-fig { animation: hr-bob 3.4s ease-in-out infinite; }
+  .anim .hr-robot { animation-delay: 0.6s; transform-box: fill-box; }
+  .anim .hr-human { transform-box: fill-box; }
+  .anim .hr-link .link-line { stroke: var(--navy); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 4 6; }
+  .anim .hr-link .link-node { fill: var(--lime); stroke: var(--navy); stroke-width: 2.5; }
+  .anim .hr-link .link-plus { stroke: #fff; stroke-width: 3; stroke-linecap: round; }
+  .anim .hr-link { animation: hr-pulse 1.8s ease-in-out infinite; transform-origin: 440px 200px; }
   @keyframes hr-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   @keyframes hr-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 
-  /* scan-pulse */
-  .sp-ring { fill: none; stroke: var(--accent); stroke-width: 3; transform-box: fill-box; transform-origin: center; opacity: 0; animation: sp-pulse 2.7s ease-out var(--d) infinite; }
-  .spark { fill: var(--lime); animation: sp-spark 2.2s ease-in-out infinite; }
-  .spark.s2 { fill: var(--accent); animation-delay: 0.7s; }
+  /* 5. scan-pulse */
+  .anim .sp-ring { fill: none; stroke: var(--accent); stroke-width: 3; transform-box: fill-box; transform-origin: center; opacity: 0; animation: sp-pulse 2.7s ease-out var(--d) infinite; }
+  .anim .spark { fill: var(--lime); animation: sp-spark 2.2s ease-in-out infinite; }
+  .anim .spark.s2 { fill: var(--accent); animation-delay: 0.7s; }
   @keyframes sp-pulse { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.7); opacity: 0; } }
   @keyframes sp-spark { 0%,100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
 
-  /* Заморозка: статичное превью и уважение к prefers-reduced-motion */
+  /* 6. robot-mop */
+  .anim .mp-robot { animation: hr-bob 2.6s ease-in-out infinite; }
+  .anim .mp-brush { fill: none; stroke: var(--navy); stroke-width: 3; transform-origin: 440px 256px; animation: mp-spin 1.4s linear infinite; }
+  .anim .mp-drop { fill: var(--accent); opacity: 0; animation: mp-drip 1.8s ease-in var(--d) infinite; }
+  @keyframes mp-spin { to { transform: rotate(360deg); } }
+  @keyframes mp-drip { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(18px); } }
+
+  /* 7. robot-vacuum */
+  .anim .vc-body { animation: vc-move 6s ease-in-out infinite; }
+  .anim .vc-brush { transform-origin: 440px 180px; animation: vc-spin 1.2s linear infinite; }
+  .anim .vc-dust { fill: var(--text-dim); opacity: 0; animation: vc-fade 2.4s ease var(--d) infinite; }
+  .anim .vc-sensor { stroke-dasharray: 30 70; animation: vc-sense 1.6s linear infinite; }
+  @keyframes vc-move { 0%,100% { transform: translate(0,0); } 25% { transform: translate(40px,-20px); } 50% { transform: translate(-30px,30px); } 75% { transform: translate(20px,10px); } }
+  @keyframes vc-spin { to { transform: rotate(360deg); } }
+  @keyframes vc-fade { 0%,100% { opacity: 0; } 50% { opacity: 0.5; } }
+  @keyframes vc-sense { to { stroke-dashoffset: -100; } }
+
+  /* 8. warehouse-bot */
+  .anim .wh-robot { animation: rr-move 7s ease-in-out infinite; }
+
+  /* 9. office-scene */
+  .anim .of-robot { animation: of-move 8s ease-in-out infinite; }
+  @keyframes of-move { 0%,100% { transform: translateX(80px); } 50% { transform: translateX(620px); } }
+
+  /* 10. data-dashboard */
+  .anim .dd-bar { fill: #bfe7ec; stroke: var(--navy); stroke-width: 2; transform-box: fill-box; transform-origin: bottom; animation: rc-grow 1s ease-out var(--d) both; }
+  .anim .dd-bar--hi { fill: var(--accent); }
+  .anim .dd-line { fill: none; stroke: var(--lime); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 300; animation: dd-draw 2s ease-out 0.5s both; }
+  .anim .dd-dot { fill: var(--lime); animation: dd-pulse 1.5s ease-in-out 2s infinite; }
+  @keyframes dd-draw { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
+  @keyframes dd-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* 11. battery-charge */
+  .anim .bc-fill { fill: var(--lime); transform-box: fill-box; transform-origin: bottom; animation: bc-charge 3s ease-in-out infinite; }
+  .anim .bc-bolt { animation: bc-flash 1.5s ease-in-out infinite; }
+  .anim .bc-cable { animation: bc-flash 2s ease-in-out infinite; }
+  @keyframes bc-charge { 0% { transform: scaleY(0.1); } 80%,100% { transform: scaleY(1); } }
+  @keyframes bc-flash { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* 12. floor-sparkle */
+  .anim .fs-star { fill: var(--accent); opacity: 0; animation: fs-twinkle 2.5s ease-in-out var(--d) infinite; }
+  @keyframes fs-twinkle { 0%,100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
+
+  /* 13. lidar-scan */
+  .anim .ls-beam { transform-origin: 440px 178px; animation: ls-rotate 4s linear infinite; }
+  .anim .ls-dot { fill: var(--lime); opacity: 0; animation: ls-ping 3.2s ease var(--d) infinite; }
+  @keyframes ls-rotate { to { transform: rotate(360deg); } }
+  @keyframes ls-ping { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* 14. cloud-connect */
+  .anim .cc-cloud { fill: #e6f6f8; stroke: var(--navy); stroke-width: 3; animation: cc-float 3s ease-in-out infinite; }
+  .anim .cc-pkt { fill: var(--accent); opacity: 0; animation: cc-up 3s ease var(--d) infinite; }
+  @keyframes cc-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes cc-up { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-130px); } }
+
+  /* 15. gear-service */
+  .anim .gs-g1 { transform-origin: 340px 190px; animation: gs-spin 6s linear infinite; }
+  .anim .gs-g2 { transform-origin: 510px 120px; animation: gs-spin 4s linear infinite reverse; }
+  .anim .gs-wrench { animation: hr-bob 2s ease-in-out infinite; }
+  @keyframes gs-spin { to { transform: rotate(360deg); } }
+
+  /* 16. cost-scale */
+  .anim .cs-beam { transform-origin: 440px 220px; animation: cs-tip 4s ease-in-out infinite; }
+  @keyframes cs-tip { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-8deg); } }
+
+  /* 17. partnership */
+  .anim .pt-left { animation: pt-al 4s ease-in-out infinite; }
+  .anim .pt-right { animation: pt-ar 4s ease-in-out infinite; }
+  .anim .pt-bridge { animation: hr-pulse 2s ease-in-out infinite; transform-origin: 440px 200px; }
+  @keyframes pt-al { 0%,100% { transform: translateX(0); } 50% { transform: translateX(20px); } }
+  @keyframes pt-ar { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-20px); } }
+
+  /* 18. building-zones */
+  .anim .bz-zone { fill: var(--accent); opacity: 0; animation: bz-light 2.4s ease var(--d) infinite; }
+  @keyframes bz-light { 0%,100% { opacity: 0; } 30%,70% { opacity: 0.15; } }
+
+  /* 19. robot-squad */
+  .anim .sq-fleet { animation: sq-move 7s ease-in-out infinite; }
+  @keyframes sq-move { 0%,100% { transform: translateX(120px); } 50% { transform: translateX(520px); } }
+
+  /* 20. timeline */
+  .anim .tl-progress { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 640; animation: tl-draw 3s ease-out both; }
+  .anim .tl-ms circle { fill: #fff; stroke: var(--accent); stroke-width: 3; transform-box: fill-box; transform-origin: center; animation: tl-pop 0.5s ease-out var(--d) both; }
+  @keyframes tl-draw { from { stroke-dashoffset: 640; } to { stroke-dashoffset: 0; } }
+  @keyframes tl-pop { from { transform: scale(0); } to { transform: scale(1); } }
+
+  /* --- static & reduced-motion --- */
   .anim.is-static *,
-  .anim.is-static {
-    animation: none !important;
-  }
+  .anim.is-static { animation: none !important; }
   .anim.is-static .sp-ring { opacity: 0.35; }
+  .anim.is-static .mp-drop { opacity: 0.5; }
+  .anim.is-static .vc-dust { opacity: 0.3; }
+  .anim.is-static .fs-star { opacity: 0.6; }
+  .anim.is-static .ls-dot { opacity: 0.5; }
+  .anim.is-static .cc-pkt { opacity: 0.5; transform: translateY(-65px); }
+  .anim.is-static .bz-zone { opacity: 0.12; }
+  .anim.is-static .dd-line { stroke-dashoffset: 0; }
+  .anim.is-static .tl-progress { stroke-dashoffset: 0; }
+  .anim.is-static .tl-ms circle { transform: scale(1); }
+  .anim.is-static .bc-fill { transform: scaleY(0.7); }
+  .anim.is-static .rc-trend { stroke-dashoffset: 0; }
+
   @media (prefers-reduced-motion: reduce) {
     .anim * { animation: none !important; }
     .anim .sp-ring { opacity: 0.3; }
     .anim .rm-dot { offset-distance: 12%; }
+    .anim .mp-drop { opacity: 0.5; }
+    .anim .vc-dust { opacity: 0.3; }
+    .anim .fs-star { opacity: 0.6; }
+    .anim .ls-dot { opacity: 0.5; }
+    .anim .cc-pkt { opacity: 0.5; }
+    .anim .bz-zone { opacity: 0.12; }
+    .anim .dd-line { stroke-dashoffset: 0; }
+    .anim .tl-progress { stroke-dashoffset: 0; }
+    .anim .tl-ms circle { transform: scale(1); }
+    .anim .bc-fill { transform: scaleY(0.7); }
+    .anim .rc-trend { stroke-dashoffset: 0; }
   }
 </style>
