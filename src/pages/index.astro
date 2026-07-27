@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import VideoHero from '../components/VideoHero.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import { RUBRICS, rubricOf, slugOfRubric } from '../utils/taxonomy';
 
 const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
@@ -22,8 +22,8 @@ const rubricCards = RUBRICS.filter((r) => counts.has(r.name));
 ---
 
 <BaseLayout title="RoboClean">
-  <!-- HERO: видео-заставка -->
-  <VideoHero />
+  <!-- HERO: карусель роботов -->
+  <HeroCarousel />
 
   <!-- РУБРИКИ -->
   <section class="section">
