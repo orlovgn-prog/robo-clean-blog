@@ -24,7 +24,7 @@ const animKey = pickAnimation({
 <article class={`card${featured ? ' card--featured' : ''}`}>
   <a href={href} class="card-link" aria-label={data.title}></a>
   <div class="card-cover">
-    <ArticleAnimation name={animKey} static={true} />
+    <ArticleAnimation name={animKey} static={!featured} />
   </div>
   <div class="card-body">
     <div class="card-top">

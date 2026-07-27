@@ -1,392 +1,162 @@
 ---
-// Карусель роботов на главной. 3 анимированных видео, автоплей, зацикл.
-// Адаптировано из концепта TOONHUB под стиль RoboClean.
 ---
 
-<section class="hero-c" id="hero-carousel">
-  <div class="hero-c__grain" aria-hidden="true"></div>
-  <div class="hero-c__scrim" aria-hidden="true"></div>
+<section class="vhero">
+  <video
+    class="vhero__bg"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="/media/hero-bg.webm" type="video/webm" />
+  </video>
 
-  <div class="hero-c__ghost" aria-hidden="true">ROBOCLEAN</div>
+  <div class="vhero__grain" aria-hidden="true"></div>
+  <div class="vhero__scrim" aria-hidden="true"></div>
 
-  <div class="hero-c__carousel">
-    <div class="hero-c__item" data-index="0">
-      <video muted loop playsinline preload="auto" autoplay>
-        <source src="/media/robot_2_animated_v2.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="hero-c__item" data-index="1">
-      <video muted loop playsinline preload="auto" autoplay>
-        <source src="/media/robot_3_animated.mp4" type="video/mp4" />
-      </video>
-    </div>
-    <div class="hero-c__item" data-index="2">
-      <video muted loop playsinline preload="auto" autoplay>
-        <source src="/media/robot_4_animated_v2.mp4" type="video/mp4" />
-      </video>
-    </div>
-  </div>
-
-  <div class="hero-c__content">
-    <p class="hero-c__label">Робототехника для клининга</p>
-    <h1 class="hero-c__title">
+  <div class="container vhero__inner">
+    <span class="eyebrow vhero__eyebrow">Робототехника для клининга</span>
+    <h1 class="vhero__title">
       Роботы, которые убирают<br />офисы, склады и <span class="hl">бизнес-центры</span>
     </h1>
-    <p class="hero-c__sub">
+    <p class="vhero__sub">
       Новости индустрии, кейсы внедрений, обзоры моделей и экономика автоматизации.
       Материалы готовит ИИ-редакция на&nbsp;основе реальных источников.
     </p>
-    <div class="hero-c__nav">
-      <button class="hero-c__arrow" data-dir="prev" aria-label="Предыдущий">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-      </button>
-      <button class="hero-c__arrow" data-dir="next" aria-label="Следующий">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
+    <div class="vhero__cta">
+      <a href="/articles" class="btn btn-primary">Читать статьи</a>
+      <a href="/about" class="btn vhero__ghost">О проекте</a>
     </div>
   </div>
-
-  <a href="/articles" class="hero-c__discover">
-    Читать статьи
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-  </a>
 </section>
 
 <style>
-  .hero-c {
+  .vhero {
     position: relative;
     width: 100%;
     height: 100vh;
     min-height: 560px;
+    display: flex;
+    align-items: center;
     overflow: hidden;
     background: var(--navy, #0e3a44);
-    font-family: var(--font-sans, 'Inter', sans-serif);
-    transition: background-color 650ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .hero-c[data-bg="0"] { background: #0e3a44; }
-  .hero-c[data-bg="1"] { background: #0a4a3a; }
-  .hero-c[data-bg="2"] { background: #122e44; }
 
-  /* Grain overlay */
-  .hero-c__grain {
+  .vhero__bg {
     position: absolute;
     inset: 0;
-    z-index: 50;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .vhero__grain {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
     pointer-events: none;
-    opacity: 0.35;
+    opacity: 0.3;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.08'/%3E%3C/svg%3E");
     background-size: 200px 200px;
     background-repeat: repeat;
   }
 
-  /* Left scrim for text readability */
-  .hero-c__scrim {
+  .vhero__scrim {
     position: absolute;
     inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    background:
-      linear-gradient(90deg, rgba(14, 58, 68, 0.85) 0%, rgba(14, 58, 68, 0.5) 35%, transparent 60%),
-      linear-gradient(0deg, rgba(14, 58, 68, 0.6) 0%, transparent 40%);
-  }
-
-  /* Ghost text */
-  .hero-c__ghost {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    top: 14%;
-    font-family: var(--font-display, 'Anton', sans-serif);
-    font-size: clamp(70px, 22vw, 320px);
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.06);
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  /* Carousel items */
-  .hero-c__carousel {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-  }
-  .hero-c__item {
-    position: absolute;
-    aspect-ratio: 0.6 / 1;
-    overflow: hidden;
-    transition:
-      transform 650ms cubic-bezier(0.4, 0, 0.2, 1),
-      filter 650ms cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 650ms cubic-bezier(0.4, 0, 0.2, 1),
-      left 650ms cubic-bezier(0.4, 0, 0.2, 1),
-      bottom 650ms cubic-bezier(0.4, 0, 0.2, 1),
-      height 650ms cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, filter, opacity;
-  }
-  .hero-c__item video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: bottom center;
-    pointer-events: none;
-  }
-  .hero-c__item::after {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -10%;
-    right: -10%;
-    height: 40%;
-    background: linear-gradient(to bottom, var(--navy, #0e3a44) 20%, transparent);
     z-index: 1;
-    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(14, 58, 68, 0.82) 0%, rgba(14, 58, 68, 0.45) 42%, rgba(14, 58, 68, 0) 70%),
+      linear-gradient(0deg, rgba(14, 58, 68, 0.55) 0%, rgba(14, 58, 68, 0) 45%);
   }
 
-  /* Role styles - desktop */
-  .hero-c__item[data-role="center"] {
-    left: 50%;
-    bottom: -8%;
-    height: 90%;
-    transform: translateX(-50%) scale(1.35);
-    filter: blur(0);
-    opacity: 1;
-    z-index: 20;
-  }
-  .hero-c__item[data-role="left"] {
-    left: 28%;
-    bottom: 10%;
-    height: 28%;
-    transform: translateX(-50%) scale(1);
-    filter: blur(2px);
-    opacity: 0.8;
-    z-index: 10;
-  }
-  .hero-c__item[data-role="right"] {
-    left: 72%;
-    bottom: 10%;
-    height: 28%;
-    transform: translateX(-50%) scale(1);
-    filter: blur(2px);
-    opacity: 0.8;
-    z-index: 10;
-  }
-
-  /* Bottom-left content */
-  .hero-c__content {
-    position: absolute;
-    bottom: 24px;
-    left: 16px;
-    z-index: 60;
-    max-width: 440px;
-  }
-  .hero-c__label {
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--accent, #14b8c4);
-    margin: 0 0 8px;
-  }
-  .hero-c__title {
+  .vhero__inner {
+    position: relative;
+    z-index: 3;
     color: #fff;
-    font-size: clamp(1.4rem, 3.2vw, 2.2rem);
-    font-weight: 800;
-    line-height: 1.15;
-    margin: 0 0 12px;
+    padding-block: 80px;
+  }
+
+  .vhero__eyebrow {
+    color: var(--accent, #14b8c4);
+  }
+
+  .vhero__title {
+    color: #fff;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    margin: 16px 0 18px;
+    max-width: 15ch;
     text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
   }
-  .hero-c__title .hl { color: var(--accent, #14b8c4); }
-  .hero-c__sub {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.88rem;
-    line-height: 1.55;
-    margin: 0 0 18px;
-    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.4);
-    display: none;
+  .vhero__title .hl {
+    color: var(--accent, #14b8c4);
   }
-  .hero-c__nav {
+
+  .vhero__sub {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1.12rem;
+    max-width: 540px;
+    margin: 0 0 28px;
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.5);
+  }
+
+  .vhero__cta {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .hero-c__arrow {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+
+  .vhero__ghost {
+    background: rgba(255, 255, 255, 0.08);
     border: 2px solid rgba(255, 255, 255, 0.7);
-    background: transparent;
     color: #fff;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
+    backdrop-filter: blur(4px);
   }
-  .hero-c__arrow:hover {
-    transform: scale(1.08);
-    background: rgba(255, 255, 255, 0.12);
+  .vhero__ghost:hover {
+    background: rgba(255, 255, 255, 0.18);
     border-color: #fff;
+    color: #fff;
   }
 
-  /* Bottom-right CTA */
-  .hero-c__discover {
-    position: absolute;
-    bottom: 24px;
-    right: 16px;
-    z-index: 60;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-display, 'Anton', sans-serif);
-    font-size: clamp(18px, 3.5vw, 44px);
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.92);
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    text-decoration: none;
-    transition: opacity 200ms ease;
-  }
-  .hero-c__discover:hover { opacity: 1; color: #fff; }
-
-  /* Desktop */
-  @media (min-width: 641px) {
-    .hero-c__brand { left: 32px; }
-    .hero-c__content {
-      bottom: 80px;
-      left: 96px;
-      max-width: 380px;
-    }
-    .hero-c__sub { display: block; }
-    .hero-c__arrow { width: 56px; height: 56px; }
-    .hero-c__discover { bottom: 80px; right: 40px; }
-  }
-
-  /* Mobile overrides */
   @media (max-width: 640px) {
-    .hero-c {
+    .vhero {
       height: calc(100vh - 70px);
       height: calc(100svh - 70px);
       min-height: 480px;
     }
-    .hero-c__item[data-role="center"] {
-      height: 40%;
-      bottom: 28%;
-      transform: translateX(-50%) scale(1.05);
+    .vhero__sub {
+      font-size: 1rem;
     }
-    .hero-c__item[data-role="left"] {
-      left: 12%;
-      bottom: 36%;
-      height: 14%;
-    }
-    .hero-c__item[data-role="right"] {
-      left: 88%;
-      bottom: 36%;
-      height: 14%;
-    }
-    .hero-c__content {
-      bottom: 12px;
-      left: 12px;
-      max-width: 90%;
-    }
-    .hero-c__title {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-    }
-    .hero-c__label {
-      font-size: 0.65rem;
-      margin-bottom: 4px;
-    }
-    .hero-c__nav {
-      gap: 8px;
-    }
-    .hero-c__arrow {
-      width: 40px;
-      height: 40px;
-    }
-    .hero-c__discover {
-      display: none;
-    }
-    .hero-c__item[data-role="left"] {
-      left: 18%;
-      bottom: 32%;
-      height: 16%;
-    }
-    .hero-c__item[data-role="right"] {
-      left: 82%;
-      bottom: 32%;
-      height: 16%;
-    }
-    .hero-c__title {
-      font-size: clamp(1.2rem, 5vw, 1.6rem);
+    .vhero__inner {
+      padding-block: 40px;
     }
   }
 </style>
 
 <script>
-  const section = document.getElementById('hero-carousel');
-  if (section) {
-    const items = section.querySelectorAll<HTMLDivElement>('.hero-c__item');
-    const TOTAL = items.length;
-    let activeIndex = 0;
-    let isAnimating = false;
-
-    function assignRoles() {
-      const roles = ['center', 'left', 'right'];
-      items.forEach((item, i) => {
-        let role: string;
-        if (i === activeIndex) role = 'center';
-        else if (i === (activeIndex + TOTAL - 1) % TOTAL) role = 'left';
-        else if (i === (activeIndex + 1) % TOTAL) role = 'right';
-        else role = 'left';
-        item.setAttribute('data-role', role);
-      });
-      section!.setAttribute('data-bg', String(activeIndex));
+  const v = document.querySelector<HTMLVideoElement>('.vhero__bg');
+  if (v) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      v.removeAttribute('autoplay');
+      v.preload = 'none';
+      while (v.firstChild) v.removeChild(v.firstChild);
+      v.load();
+    } else if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) v.play().catch(() => {});
+            else v.pause();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      io.observe(v);
     }
-
-    function navigate(dir: 'next' | 'prev') {
-      if (isAnimating) return;
-      isAnimating = true;
-      if (dir === 'next') activeIndex = (activeIndex + 1) % TOTAL;
-      else activeIndex = (activeIndex + TOTAL - 1) % TOTAL;
-      assignRoles();
-      setTimeout(() => { isAnimating = false; }, 650);
-    }
-
-    section.querySelectorAll<HTMLButtonElement>('.hero-c__arrow').forEach(btn => {
-      btn.addEventListener('click', () => {
-        navigate(btn.dataset.dir as 'next' | 'prev');
-      });
-    });
-
-    // Auto-rotate every 4s
-    let autoTimer = setInterval(() => navigate('next'), 4000);
-    section.addEventListener('mouseenter', () => clearInterval(autoTimer));
-    section.addEventListener('mouseleave', () => {
-      autoTimer = setInterval(() => navigate('next'), 4000);
-    });
-
-    // Touch swipe
-    let touchStartX = 0;
-    section.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    section.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 50) navigate(dx < 0 ? 'next' : 'prev');
-    }, { passive: true });
-
-    assignRoles();
-
-    // Play all videos
-    items.forEach(item => {
-      const v = item.querySelector('video');
-      if (v) v.play().catch(() => {});
-    });
   }
 </script>
