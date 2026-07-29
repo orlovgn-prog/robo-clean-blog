@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Pudu Robotics","промышленная уборка","складская автоматизация","робот-уборщик"]
 objectTypes: ["склад","логистика"]
 vendors: ["Pudu Robotics"]
-robotType: "промышленный робот-уборщик"
+robotType: ["промышленный робот-уборщик"]
 readingTime: 2
 animation: "warehouse-bot"
 origin: "auto"

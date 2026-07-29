@@ -7,7 +7,7 @@ rubric: "Рынок"
 tags: ["Avidbots","инвестиции","роботы-уборщики","автономная уборка"]
 objectTypes: ["ТЦ","аэропорт","склад"]
 vendors: ["Avidbots"]
-robotType: "робот-полотёр"
+robotType: ["робот-полотёр"]
 readingTime: 2
 animation: "robot-mop"
 origin: "auto"

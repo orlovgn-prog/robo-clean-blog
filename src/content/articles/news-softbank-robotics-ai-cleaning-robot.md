@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["SoftBank Robotics","клининговый робот","искусственный интеллект","автоматизация уборки","ритейл"]
 objectTypes: ["ТЦ","БЦ"]
 vendors: ["SoftBank Robotics"]
-robotType: "робот-уборщик"
+robotType: ["робот-уборщик"]
 readingTime: 2
 animation: "robot-roll"
 origin: "auto"

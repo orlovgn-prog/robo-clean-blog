@@ -7,7 +7,7 @@ rubric: "Рынок"
 tags: ["ИИ","тренды","автономная уборка","коммерческая недвижимость"]
 objectTypes: ["ТЦ","БЦ","склад"]
 vendors: []
-robotType: "уборочный робот"
+robotType: ["уборочный робот"]
 readingTime: 2
 animation: "scan-pulse"
 origin: "auto"

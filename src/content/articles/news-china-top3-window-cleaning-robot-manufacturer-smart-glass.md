@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["роботы для мытья окон","клининг фасадов","Китай","умная очистка стекла","коммерческая недвижимость"]
 objectTypes: ["БЦ"]
 vendors: []
-robotType: "робот для мытья окон"
+robotType: ["робот для мытья окон"]
 readingTime: 2
 animation: "robot-roll"
 origin: "auto"

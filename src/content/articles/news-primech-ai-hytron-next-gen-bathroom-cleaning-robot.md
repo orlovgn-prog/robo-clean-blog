@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Primech AI","HYTRON","робот для уборки санузлов","ИИ в клининге","автономные роботы"]
 objectTypes: ["ТЦ","БЦ","аэропорт"]
 vendors: ["Primech AI"]
-robotType: "робот для уборки санузлов"
+robotType: ["робот для уборки санузлов"]
 readingTime: 2
 animation: "robot-mop"
 origin: "auto"

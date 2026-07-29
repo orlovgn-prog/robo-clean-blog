@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Primech","робот-уборщик","санузлы","автоматизация клининга","коммерческая недвижимость"]
 objectTypes: ["ТЦ","БЦ","аэропорт","вокзал"]
 vendors: ["Primech"]
-robotType: "робот для уборки санузлов"
+robotType: ["робот для уборки санузлов"]
 readingTime: 2
 animation: "robot-mop"
 origin: "auto"

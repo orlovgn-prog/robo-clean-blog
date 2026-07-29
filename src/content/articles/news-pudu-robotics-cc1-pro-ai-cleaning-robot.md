@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Pudu Robotics","CC1 Pro","искусственный интеллект","автономная уборка","клининговые роботы"]
 objectTypes: ["ТЦ","БЦ"]
 vendors: ["Pudu Robotics"]
-robotType: "робот-уборщик"
+robotType: ["робот-уборщик"]
 readingTime: 2
 animation: "robot-roll"
 origin: "auto"

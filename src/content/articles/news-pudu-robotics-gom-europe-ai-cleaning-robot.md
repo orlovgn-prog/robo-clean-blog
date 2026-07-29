@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Pudu Robotics","Gom","ИИ","клининг","Европа","партнёрство","автоматизация"]
 objectTypes: ["ТЦ","БЦ"]
 vendors: ["Pudu Robotics","Gom"]
-robotType: "клининговый робот"
+robotType: ["клининговый робот"]
 readingTime: 2
 animation: "partnership"
 origin: "auto"

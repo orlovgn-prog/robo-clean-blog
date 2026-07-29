@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["SoftBank","робот-уборщик","искусственный интеллект","автоматизация клининга","коммерческая недвижимость"]
 objectTypes: ["ТЦ","БЦ","аэропорт"]
 vendors: ["SoftBank"]
-robotType: "напольный робот-уборщик"
+robotType: ["напольный робот-уборщик"]
 readingTime: 2
 animation: "robot-mop"
 origin: "auto"

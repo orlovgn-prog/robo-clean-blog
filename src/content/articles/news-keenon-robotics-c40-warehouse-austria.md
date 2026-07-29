@@ -7,7 +7,7 @@ rubric: "Кейсы"
 tags: ["KEENON","C40","склад","Австрия","робот-мойщик"]
 objectTypes: ["склад","логистика"]
 vendors: ["KEENON Robotics"]
-robotType: "робот-полотер"
+robotType: ["робот-полотер"]
 readingTime: 2
 animation: "warehouse-bot"
 origin: "auto"

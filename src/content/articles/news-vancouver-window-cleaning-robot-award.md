@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["робот-мойщик окон","инновации","Канада","фасадный клининг","награда"]
 objectTypes: ["БЦ"]
 vendors: []
-robotType: "робот для мойки окон"
+robotType: ["робот для мойки окон"]
 readingTime: 2
 animation: "robot-roll"
 origin: "auto"

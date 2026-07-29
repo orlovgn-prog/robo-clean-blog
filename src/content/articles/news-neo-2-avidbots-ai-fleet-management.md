@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Avidbots","Neo 2","искусственный интеллект","управление флотом","робот-уборщик"]
 objectTypes: ["ТЦ","БЦ","аэропорт","склад"]
 vendors: ["Avidbots"]
-robotType: "робот-полотёр"
+robotType: ["робот-полотёр"]
 readingTime: 2
 animation: "robot-squad"
 origin: "auto"

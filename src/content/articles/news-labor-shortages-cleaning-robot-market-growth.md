@@ -7,7 +7,7 @@ rubric: "Рынок"
 tags: ["робо-клининг","рынок роботов","автоматизация","дефицит кадров","facility management"]
 objectTypes: ["ТЦ","БЦ","склад","логистика"]
 vendors: []
-robotType: "клининговый робот"
+robotType: ["клининговый робот"]
 readingTime: 2
 animation: "roi-chart"
 origin: "auto"

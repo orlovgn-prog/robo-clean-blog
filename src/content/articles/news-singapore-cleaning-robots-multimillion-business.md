@@ -7,7 +7,7 @@ rubric: "Рынок"
 tags: ["Сингапур","производство роботов","бизнес","клининг","автоматизация"]
 objectTypes: ["ТЦ","БЦ"]
 vendors: []
-robotType: "робот-уборщик"
+robotType: ["робот-уборщик"]
 readingTime: 2
 animation: "robot-squad"
 origin: "auto"

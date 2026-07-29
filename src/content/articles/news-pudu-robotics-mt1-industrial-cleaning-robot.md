@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["PUDU Robotics","MT1","промышленная уборка","робот-уборщик","автоматизация складов"]
 objectTypes: ["склад","логистика"]
 vendors: ["PUDU Robotics"]
-robotType: "уборочный робот"
+robotType: ["уборочный робот"]
 readingTime: 2
 animation: "warehouse-bot"
 origin: "auto"

@@ -7,7 +7,7 @@ rubric: "Новости"
 tags: ["Emrill","Dubai Festival City Mall","робот-уборщик","устойчивое развитие","клининг","ОАЭ"]
 objectTypes: ["ТЦ"]
 vendors: ["Emrill"]
-robotType: "робот-уборщик"
+robotType: ["робот-уборщик"]
 readingTime: 2
 animation: "robot-mop"
 origin: "auto"
