@@ -1,7 +1,7 @@
 ---
 title: "Cleaning Robot Market Size And Share Report, 2026-2033 - Grand View Research"
 description: "Cleaning Robot Market Size And Share Report, 2026-2033 Grand View Research"
-pubDate: 2026-07-29
+pubDate: 2019-12-13
 category: "Технологии"
 rubric: "Рынок"
 tags: ["рынок роботов","аналитика","клининг","прогноз","Grand View Research"]

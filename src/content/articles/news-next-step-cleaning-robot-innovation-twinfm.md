@@ -1,7 +1,7 @@
 ---
 title: "Next-Step for Cleaning Robot Innovation - TWinFM"
 description: "Next-Step for Cleaning Robot Innovation"
-pubDate: 2026-07-29
+pubDate: 2022-08-03
 category: "Технологии"
 rubric: "Новости"
 tags: ["робо-клининг","инновации","facility management","автоматизация уборки"]
