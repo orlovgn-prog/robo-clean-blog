@@ -1,0 +1,74 @@
+name: Deploy to Timeweb
+
+# Сайт статический, на хостинге сборки нет — собираем здесь и заливаем
+# готовый dist. Это же держит ежедневный автосбор новостей: n8n коммитит
+# .md, workflow пересобирает сайт и выкладывает статью.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Деплои не должны накладываться друг на друга: параллельная заливка по FTP
+# оставит на хостинге смесь двух сборок.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Корень сайта на Timeweb руками проверяется меткой-файлом и задаётся
+      # переменной репозитория. Пустое значение залило бы сборку в корень
+      # FTP-аккаунта — молча и мимо сайта, поэтому падаем сразу.
+      - name: Проверить, что задан корень сайта
+        run: |
+          if [ -z "${{ vars.FTP_SERVER_DIR }}" ]; then
+            echo "::error::Не задана переменная FTP_SERVER_DIR (Settings -> Secrets and variables -> Actions -> Variables)."
+            echo "Это путь к боевому корню сайта на хостинге, например /public_html/ или /maddroidblog.ru/public_html/."
+            echo "Проверьте его меткой-файлом, а не по догадке."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Пустая или битая сборка не должна уехать на боевой сайт.
+      - name: Проверить сборку
+        run: |
+          test -f dist/index.html || { echo "::error::Нет dist/index.html"; exit 1; }
+          test -f dist/.htaccess || { echo "::error::Нет dist/.htaccess — проверьте public/.htaccess"; exit 1; }
+          test -d dist/pagefind  || { echo "::error::Нет индекса Pagefind"; exit 1; }
+          pages=$(find dist -name '*.html' | wc -l)
+          echo "Собрано HTML-страниц: $pages"
+          if [ "$pages" -lt 20 ]; then
+            echo "::error::Страниц подозрительно мало ($pages) — похоже на сломанную сборку, деплой остановлен."
+            exit 1
+          fi
+
+      - name: Залить на хостинг
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          # Синхронизация инкрементальная: действие хранит на сервере
+          # состояние и заливает только изменившиеся файлы. Иначе каждая
+          # новость тянула бы все 37 МБ, включая 18 МБ видео на главной.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**

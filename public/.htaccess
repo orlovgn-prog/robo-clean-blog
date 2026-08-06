@@ -1,0 +1,67 @@
+# Конфигурация Apache для Timeweb. Файл лежит в public/, Astro копирует
+# его в dist/ как есть, поэтому он уезжает на хостинг вместе со сборкой.
+
+RewriteEngine On
+
+# ВАЖНО: проверка Let's Encrypt не должна попадать под редирект, иначе
+# выпуск и продление сертификата зацикливаются.
+RewriteRule ^\.well-known/acme-challenge/ - [L]
+
+# SSL терминируется на прокси Timeweb, поэтому смотрим X-Forwarded-Proto,
+# а не только HTTPS. Редиректы абсолютные — с относительными появляется
+# лишний скачок.
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Канонический адрес — без www.
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+ErrorDocument 404 /404.html
+
+# Астро отдаёт страницы каталогами: /articles/slug/ -> index.html
+DirectoryIndex index.html
+
+# Листинг каталогов не нужен
+Options -Indexes
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/rss+xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Ассеты Astro лежат в /_astro/ с хешем в имени — их можно кэшировать
+  # надолго, при изменении меняется имя файла.
+  <FilesMatch "\.(js|css|woff2?)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.(png|jpe?g|gif|svg|webp|avif|mp4|webm)$">
+    ExpiresDefault "access plus 30 days"
+  </FilesMatch>
+
+  # HTML не кэшируем: новости выходят ежедневно, страницы должны
+  # обновляться сразу после выкладки.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Поисковый индекс Pagefind пересобирается при каждой сборке.
+  <FilesMatch "\.(pf_meta|pf_index|pf_fragment)$">
+    ExpiresDefault "access plus 0 seconds"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+AddType application/json .pf_meta .pf_index .pf_fragment
